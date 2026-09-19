@@ -41,3 +41,10 @@ jobs:
           name: OpenTabletDriver macOS ARM64
           prerelease: true
           files: dist/*.dmg
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenTabletDriver-macos-arm64
+          path: dist/OpenTabletDriver-macos-arm64.dmg
+          if-no-files-found: error
