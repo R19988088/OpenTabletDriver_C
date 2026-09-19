@@ -54,7 +54,9 @@ namespace OpenTabletDriver.Desktop.Output
         {
             var maximum = settings.ResolveMaximumPressure(currentTool);
             var configuredMaximum = Math.Max(1, (int)MathF.Round(maximum * PressureScale));
-            var configuredDeadZone = Math.Max(0, (int)MathF.Round(settings.DeadZone * PressureScale));
+            var configuredDeadZone = Math.Min(
+                Math.Max(0, (int)MathF.Round(settings.DeadZone * PressureScale)),
+                Math.Max(0, configuredMaximum - 1));
             var maximum16 = Math.Max(configuredMaximum, configuredDeadZone + 1);
             var raw16 = maxPenPressure == 0
                 ? 0

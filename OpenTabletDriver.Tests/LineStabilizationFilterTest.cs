@@ -108,6 +108,25 @@ namespace OpenTabletDriver.Tests
         }
 
         [Fact]
+        public void DeadZoneCannotExceedMaximumPressureThreshold()
+        {
+            var filter = CreateFilter(new LineStabilizationSettings
+            {
+                CoordinateWindow = 1,
+                PressureWindow = 1,
+                DeadZone = 1,
+                DefaultMaximumPressure = 0.5f,
+                Elasticity = 1
+            }, out var emitted);
+
+            filter.Consume(Report(0, 0, 500));
+            filter.Consume(Report(1, 0, 500));
+
+            Assert.Equal(1u, ((ITabletReport)emitted[0]).Pressure);
+            Assert.Equal(1000u, ((ITabletReport)emitted[1]).Pressure);
+        }
+
+        [Fact]
         public void SerialChangesOnlyMaximumPressureAndOutOfRangeRestoresFallback()
         {
             var settings = new LineStabilizationSettings
