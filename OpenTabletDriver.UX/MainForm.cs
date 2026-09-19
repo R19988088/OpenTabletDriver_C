@@ -466,7 +466,7 @@ namespace OpenTabletDriver.UX
 
         private Button saveButton;
         private Button applyButton;
-        private Button languageButton;
+        private Button languageButton = null!;
 
         private Button CreateLanguageButton()
         {
