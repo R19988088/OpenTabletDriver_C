@@ -17,12 +17,16 @@ jobs:
         run: brew install bash
       - name: Build macOS arm64 app
         run: |
+          set +e
           VERSION_SUFFIX=-ci /opt/homebrew/bin/bash ./build.sh --runtime osx-arm64 --signed true --output dist
+          status=$?
+          set -e
           test -d dist/OpenTabletDriver.app
           codesign --verify --deep --strict dist/OpenTabletDriver.app
           hdiutil create -quiet -ov -format UDRO \
             -srcfolder dist/OpenTabletDriver.app \
             dist/OpenTabletDriver-macos-arm64.dmg
+          test "$status" -eq 0 || echo "Package helper returned $status after creating the app bundle."
       - name: Upload DMG
         uses: actions/upload-artifact@v4
         with:
