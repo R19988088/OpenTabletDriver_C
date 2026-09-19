@@ -441,7 +441,7 @@ namespace OpenTabletDriver.Daemon
                             where filter != null
                             select filter!).ToArray();
 
-            outputMode.Elements = elements.Prepend(lineStabilizationFilter).Prepend(pressureRewriteFilter).Append(bindingHandler).ToList();
+            outputMode.Elements = elements.Prepend(pressureRewriteFilter).Prepend(lineStabilizationFilter).Append(bindingHandler).ToList();
 
             foreach (var filter in elements)
             {
