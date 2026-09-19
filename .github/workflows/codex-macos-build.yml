@@ -5,6 +5,9 @@ on:
   push:
     branches: [codex-language-build]
 
+permissions:
+  contents: write
+
 jobs:
   macos:
     runs-on: macos-14
@@ -18,10 +21,11 @@ jobs:
       - name: Build macOS arm64 app
         run: |
           set +e
-          VERSION_SUFFIX=-ci /opt/homebrew/bin/bash ./build.sh --runtime osx-arm64 --signed true --output dist
+          VERSION_SUFFIX=-ci /opt/homebrew/bin/bash ./build.sh --runtime osx-arm64 --signed false --output dist
           status=$?
           set -e
           test -d dist/OpenTabletDriver.app
+          codesign --deep --force --sign - dist/OpenTabletDriver.app
           codesign --verify --deep --strict dist/OpenTabletDriver.app
           find . -type d \( -name bin -o -name obj \) -prune -exec rm -rf {} +
           rm -rf "$HOME/.nuget/packages"
@@ -30,9 +34,10 @@ jobs:
             -srcfolder dist/OpenTabletDriver.app \
             dist/OpenTabletDriver-macos-arm64.dmg
           test "$status" -eq 0 || echo "Package helper returned $status after creating the app bundle."
-      - name: Upload DMG
-        uses: actions/upload-artifact@v4
+      - name: Publish DMG
+        uses: softprops/action-gh-release@v2
         with:
-          name: OpenTabletDriver-macos-arm64
-          path: dist/*.dmg
-          if-no-files-found: error
+          tag_name: codex-language-build
+          name: OpenTabletDriver macOS ARM64
+          prerelease: true
+          files: dist/*.dmg
