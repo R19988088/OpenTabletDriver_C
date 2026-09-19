@@ -13,8 +13,10 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
+      - name: Install Bash 5
+        run: brew install bash
       - name: Build macOS arm64 app
-        run: ./build.sh --runtime osx-arm64 --signed true --output dist
+        run: VERSION_SUFFIX=-ci /opt/homebrew/bin/bash ./build.sh --runtime osx-arm64 --signed true --output dist
       - name: Upload app package
         uses: actions/upload-artifact@v4
         with:
