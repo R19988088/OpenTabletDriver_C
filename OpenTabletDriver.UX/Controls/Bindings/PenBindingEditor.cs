@@ -69,6 +69,44 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                         },
                         new Group
                         {
+                            Content = new StackLayout
+                            {
+                                HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                                Spacing = 5,
+                                Items =
+                                {
+                                    new UnitGroup
+                                    {
+                                        Orientation = Orientation.Horizontal,
+                                        Content = pressureDeadZone = new FloatSlider { Minimum = 0, Maximum = 30 },
+                                        Unit = "%"
+                                    }.Localize(c => { c.Text = Language.T("Pressure Dead Zone"); }),
+                                    new UnitGroup
+                                    {
+                                        Orientation = Orientation.Horizontal,
+                                        Content = elasticity = new FloatSlider { Minimum = 1, Maximum = 16 }
+                                    }.Localize(c => { c.Text = Language.T("Elasticity"); }),
+                                    new UnitGroup
+                                    {
+                                        Orientation = Orientation.Horizontal,
+                                        Content = coordinateWindow = new FloatSlider { Minimum = 1, Maximum = 16, SnapToTick = true, StepSize = 1 }
+                                    }.Localize(c => { c.Text = Language.T("Line Stabilization"); }),
+                                    new UnitGroup
+                                    {
+                                        Orientation = Orientation.Horizontal,
+                                        Content = pressureWindow = new FloatSlider { Minimum = 1, Maximum = 16, SnapToTick = true, StepSize = 1 }
+                                    }.Localize(c => { c.Text = Language.T("Pressure Filtering"); }),
+                                    new UnitGroup
+                                    {
+                                        Orientation = Orientation.Horizontal,
+                                        Content = retainedPeak = new FloatSlider { Minimum = 1, Maximum = 100 },
+                                        Unit = "%"
+                                    }.Localize(c => { c.Text = Language.T("Retained Peak"); })
+                                }
+                            }
+                        }.Localize(c => { c.Text = Language.T("Line Stabilization"); }),
+                        new Group
+                        {
                             Content = penButtons = new BindingDisplayList
                             {
                                 Prefix = "Pen Binding"
@@ -105,6 +143,11 @@ namespace OpenTabletDriver.UX.Controls.Bindings
             eraserButton.StoreBinding.Bind(SettingsBinding.Child(c => c.EraserButton));
             tipThreshold.ValueBinding.Bind(SettingsBinding.Child(c => c.TipActivationThreshold));
             eraserThreshold.ValueBinding.Bind(SettingsBinding.Child(c => c.EraserActivationThreshold));
+            pressureDeadZone.ValueBinding.Convert(v => v / 100, v => v * 100).Bind(App.Current, a => a.Settings.LineStabilization.DeadZone);
+            elasticity.ValueBinding.Bind(App.Current, a => a.Settings.LineStabilization.Elasticity);
+            coordinateWindow.ValueBinding.Convert(v => (int)v, v => (float)v).Bind(App.Current, a => a.Settings.LineStabilization.CoordinateWindow);
+            pressureWindow.ValueBinding.Convert(v => (int)v, v => (float)v).Bind(App.Current, a => a.Settings.LineStabilization.PressureWindow);
+            retainedPeak.ValueBinding.Convert(v => v / 100, v => v * 100).Bind(App.Current, a => a.Settings.LineStabilization.DefaultMaximumPressure);
             penButtons.ItemSourceBinding.Bind(SettingsBinding.Child(c => (IList<PluginSettingStore>)c.PenButtons)!);
             disablePressure.CheckedBinding.Cast<bool>().Bind(SettingsBinding.Child(c => c.DisablePressure));
             disableTilt.CheckedBinding.Cast<bool>().Bind(SettingsBinding.Child(c => c.DisableTilt));
@@ -114,6 +157,7 @@ namespace OpenTabletDriver.UX.Controls.Bindings
 
         private BindingDisplay tipButton, eraserButton;
         private FloatSlider tipThreshold, eraserThreshold;
+        private FloatSlider pressureDeadZone, elasticity, coordinateWindow, pressureWindow, retainedPeak;
         private CheckBox disablePressure, disableTilt, disableRotation, enableDragBindings;
         private BindingDisplayList penButtons;
     }

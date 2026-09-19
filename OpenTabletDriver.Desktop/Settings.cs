@@ -14,6 +14,7 @@ namespace OpenTabletDriver.Desktop
         private ProfileCollection profiles = new ProfileCollection();
         private bool lockUsableAreaDisplay, lockUsableAreaTablet;
         private PluginSettingStoreCollection tools = new PluginSettingStoreCollection();
+        private LineStabilizationSettings lineStabilization = new LineStabilizationSettings();
         private string revision = GetVersion();
 
         [JsonProperty(nameof(Revision))]
@@ -49,6 +50,13 @@ namespace OpenTabletDriver.Desktop
         {
             set => RaiseAndSetIfChanged(ref this.tools, value);
             get => this.tools;
+        }
+
+        [JsonProperty(nameof(LineStabilization))]
+        public LineStabilizationSettings LineStabilization
+        {
+            set => RaiseAndSetIfChanged(ref lineStabilization, value ?? new LineStabilizationSettings());
+            get => lineStabilization;
         }
 
         public static Settings GetDefaults()

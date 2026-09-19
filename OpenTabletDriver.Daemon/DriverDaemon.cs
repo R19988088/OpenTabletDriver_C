@@ -13,6 +13,7 @@ using OpenTabletDriver.Desktop.Contracts;
 using OpenTabletDriver.Desktop.Diagnostics;
 using OpenTabletDriver.Desktop.Interop;
 using OpenTabletDriver.Desktop.Profiles;
+using OpenTabletDriver.Desktop.Output;
 using OpenTabletDriver.Desktop.Reflection;
 using OpenTabletDriver.Desktop.Reflection.Metadata;
 using OpenTabletDriver.Desktop.RPC;
@@ -262,7 +263,7 @@ namespace OpenTabletDriver.Daemon
                     {
                         outputMode.Tablet = tabletReference;
                         var bindingHandler = CreateBindingHandler(dev, outputMode, profile.BindingSettings);
-                        SetOutputModeElements(dev, outputMode, profile, bindingHandler);
+                        SetOutputModeElements(dev, outputMode, profile, bindingHandler, Settings.LineStabilization);
 
                         outputMode.DisablePressure = profile.BindingSettings.DisablePressure;
                         outputMode.DisableTilt = profile.BindingSettings.DisableTilt;
@@ -420,7 +421,7 @@ namespace OpenTabletDriver.Daemon
             File.Move(src, dst);
         }
 
-        private static void SetOutputModeElements(InputDeviceTree dev, IOutputMode outputMode, Profile profile, BindingHandler bindingHandler)
+        private static void SetOutputModeElements(InputDeviceTree dev, IOutputMode outputMode, Profile profile, BindingHandler bindingHandler, LineStabilizationSettings lineStabilizationSettings)
         {
             string group = dev.Properties.Name;
 
@@ -430,6 +431,9 @@ namespace OpenTabletDriver.Daemon
                 EraserPressureThreshold = profile.BindingSettings.EraserActivationThreshold,
                 MaxPenPressure = dev.Properties.Specifications.Pen.MaxPressure,
             };
+            var lineStabilizationFilter = new LineStabilizationFilter(
+                lineStabilizationSettings,
+                dev.Properties.Specifications.Pen.MaxPressure);
 
             var elements = (from store in profile.Filters
                             where store is { Enable: true }
@@ -437,7 +441,7 @@ namespace OpenTabletDriver.Daemon
                             where filter != null
                             select filter!).ToArray();
 
-            outputMode.Elements = elements.Prepend(pressureRewriteFilter).Append(bindingHandler).ToList();
+            outputMode.Elements = elements.Prepend(lineStabilizationFilter).Prepend(pressureRewriteFilter).Append(bindingHandler).ToList();
 
             foreach (var filter in elements)
             {
