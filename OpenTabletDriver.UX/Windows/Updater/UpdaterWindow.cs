@@ -13,12 +13,11 @@ namespace OpenTabletDriver.UX.Windows.Updater
     {
         public UpdaterWindow()
         {
-            this.Title = "OpenTabletDriver Updater";
+            this.Title = Language.T("OpenTabletDriver Updater");
             this.ClientSize = new Size(400, 380);
 
             this.Content = new Placeholder
             {
-                Text = "Checking for updates...",
                 ExtraContent = new Panel
                 {
                     Padding = 10,
@@ -27,7 +26,7 @@ namespace OpenTabletDriver.UX.Windows.Updater
                         Indeterminate = true
                     }
                 }
-            };
+            }.Localize(c => { c.Text = Language.T("Checking for updates..."); });
 
             // ReSharper disable once AsyncVoidMethod
             Application.Instance.AsyncInvoke(async void () => await InitializeAsync());
@@ -60,12 +59,10 @@ namespace OpenTabletDriver.UX.Windows.Updater
                             {
                                 new Button(OpenRelease)
                                 {
-                                    Text = "Go to Release"
-                                },
+                                }.Localize(c => { c.Text = Language.T("Go to Release"); }),
                                 new Button(OpenDirectory)
                                 {
-                                    Text = "Open Directory"
-                                }
+                                }.Localize(c => { c.Text = Language.T("Open Directory"); })
                             },
                             Spacing = 5
                         },
@@ -78,8 +75,7 @@ namespace OpenTabletDriver.UX.Windows.Updater
             {
                 this.Content = new Placeholder
                 {
-                    Text = "No updates are available."
-                };
+                }.Localize(c => { c.Text = Language.T("No updates are available."); });
                 _updateAvailable.SetResult(false);
             }
         }

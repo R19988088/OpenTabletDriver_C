@@ -74,8 +74,7 @@ namespace OpenTabletDriver.UX
         {
             var showWindow = new ButtonMenuItem
             {
-                Text = "Show Window"
-            };
+            }.Localize(c => { c.Text = Language.T("Show Window"); });
             showWindow.Click += (sender, e) =>
             {
                 window.Show();
@@ -84,18 +83,17 @@ namespace OpenTabletDriver.UX
 
             var close = new ButtonMenuItem
             {
-                Text = "Close"
-            };
+            }.Localize(c => { c.Text = Language.T("Close"); });
             close.Click += (sender, e) => window.Close();
 
             if (DesktopInterop.CurrentPlatform == PluginPlatform.MacOS)
             {
                 // It's more idiomatic for macOS to include the name here
-                showWindow.Text = "Show OpenTabletDriver";
+                showWindow.Text = Language.T("Show OpenTabletDriver");
 
                 // Applications on macOS will keep running even after closing all their windows
                 // Offering a way to quit the app here is more idiomatic
-                close.Text = "Quit";
+                close.Text = Language.T("Quit");
                 close.Click += (sender, e) => Application.Instance.Quit();
             }
 

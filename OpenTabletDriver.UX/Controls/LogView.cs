@@ -34,15 +34,13 @@ namespace OpenTabletDriver.UX.Controls
                     filterSelector,
                     new Button((sender, e) => Copy(this.messageStore))
                     {
-                        Text = Language.T("Copy All")
-                    }
+                    }.Localize(c => { c.Text = Language.T("Copy All"); })
                 }
             };
 
             var copyCommand = new Command((sender, e) => Copy(messageList.SelectedItems))
             {
-                MenuText = Language.T("Copy")
-            };
+            }.Localize(c => { c.MenuText = Language.T("Copy"); });
 
             messageList.ContextMenu = new ContextMenu
             {
@@ -101,36 +99,32 @@ namespace OpenTabletDriver.UX.Controls
             {
                 new GridColumn
                 {
-                    HeaderText = "Time",
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding.Property<LogMessage, string>(m => m.Time.ToLongTimeString())
                     }
-                },
+                }.Localize(c => { c.HeaderText = Language.T("Time"); }),
                 new GridColumn
                 {
-                    HeaderText = "Level",
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding.Property<LogMessage, string>(m => Enum.GetName(m.Level)!)
                     }
-                },
+                }.Localize(c => { c.HeaderText = Language.T("Level"); }),
                 new GridColumn
                 {
-                    HeaderText = "Group",
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding.Property<LogMessage, string>(m => m.Group)
                     }
-                },
+                }.Localize(c => { c.HeaderText = Language.T("Group"); }),
                 new GridColumn
                 {
-                    HeaderText = "Message",
                     DataCell = new TextBoxCell
                     {
                         Binding = Binding.Property<LogMessage, string>(m => m.Message)
                     }
-                }
+                }.Localize(c => { c.HeaderText = Language.T("Message"); })
             }
         };
 

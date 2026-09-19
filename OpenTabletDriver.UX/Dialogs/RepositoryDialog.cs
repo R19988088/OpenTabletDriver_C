@@ -53,16 +53,14 @@ namespace OpenTabletDriver.UX.Dialogs
                         Expand = true,
                         Control = new Button((sender, e) => Close(null))
                         {
-                            Text = "Cancel"
-                        }
+                        }.Localize(c => { c.Text = Language.T("Cancel"); })
                     },
                     new StackLayoutItem
                     {
                         Expand = true,
                         Control = new Button((sender, e) => Return(owner, repo, gitRef))
                         {
-                            Text = "Apply"
-                        }
+                        }.Localize(c => { c.Text = Language.T("Apply"); })
                     }
                 }
             };

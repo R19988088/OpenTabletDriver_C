@@ -11,12 +11,11 @@ namespace OpenTabletDriver.UX.Controls.Bindings
         {
             wheelButtonGroup = new Group
             {
-                Text = "Wheel Buttons",
                 Content = wheelButtons = new BindingDisplayList
                 {
                     Prefix = "Wheel Button Binding"
                 }
-            };
+            }.Localize(c => { c.Text = Language.T("Wheel Buttons"); });
 
             this.Content = new Scrollable
             {
@@ -29,7 +28,6 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                     {
                         new Group
                         {
-                            Text = "Clockwise Rotation Settings",
                             Content = new StackLayout
                             {
                                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
@@ -38,30 +36,22 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                                 {
                                     new Group
                                     {
-                                        Text = "Clockwise Rotation",
-                                        Orientation = Orientation.Horizontal,
-                                        ExpandContent = false,
-                                        Content = clockwiseButton = new BindingDisplay()
-                                    },
+                                        Orientation = Orientation.Horizontal,                                        ExpandContent = false,                                        Content = clockwiseButton = new BindingDisplay()
+                                    }.Localize(c => { c.Text = Language.T("Clockwise Rotation"); }),
                                     new UnitGroup
                                     {
-                                        Text = "Clockwise Rotation Threshold",
-                                        ToolTip = "The minimum threshold in degrees in order for the assigned binding to activate.",
-                                        Orientation = Orientation.Horizontal,
-                                        Content = clockwiseThreshold = new FloatSlider()
+                                        Orientation = Orientation.Horizontal,                                        Content = clockwiseThreshold = new FloatSlider()
                                         {
                                             Minimum = 1,
                                             Maximum = 360,
                                             SnapToTick = true,
-                                        },
-                                        Unit = "°"
-                                    }
+                                        },                                        Unit = "°"
+                                    }.Localize(c => { c.Text = Language.T("Clockwise Rotation Threshold"); c.ToolTip = Language.T("The minimum threshold in degrees in order for the assigned binding to activate."); })
                                 }
                             }
-                        },
+                        }.Localize(c => { c.Text = Language.T("Clockwise Rotation Settings"); }),
                         new Group
                         {
-                            Text = "Counter-Clockwise Rotation Settings",
                             Content = new StackLayout
                             {
                                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
@@ -70,27 +60,20 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                                 {
                                     new Group
                                     {
-                                        Text = "Counter-Clockwise Rotation",
-                                        ExpandContent = false,
-                                        Orientation = Orientation.Horizontal,
-                                        Content = counterClockwiseButton = new BindingDisplay()
-                                    },
+                                        ExpandContent = false,                                        Orientation = Orientation.Horizontal,                                        Content = counterClockwiseButton = new BindingDisplay()
+                                    }.Localize(c => { c.Text = Language.T("Counter-Clockwise Rotation"); }),
                                     new UnitGroup
                                     {
-                                        Text = "Counter-Clockwise Rotation Threshold",
-                                        ToolTip = "The minimum threshold in degrees in order for the assigned binding to activate.",
-                                        Orientation = Orientation.Horizontal,
-                                        Content = counterClockwiseThreshold = new FloatSlider()
+                                        Orientation = Orientation.Horizontal,                                        Content = counterClockwiseThreshold = new FloatSlider()
                                         {
                                             Minimum = 1,
                                             Maximum = 360,
                                             SnapToTick = true,
-                                        },
-                                        Unit = "°"
-                                    }
+                                        },                                        Unit = "°"
+                                    }.Localize(c => { c.Text = Language.T("Counter-Clockwise Rotation Threshold"); c.ToolTip = Language.T("The minimum threshold in degrees in order for the assigned binding to activate."); })
                                 }
                             }
-                        },
+                        }.Localize(c => { c.Text = Language.T("Counter-Clockwise Rotation Settings"); }),
                         wheelButtonGroup
                     }
                 }

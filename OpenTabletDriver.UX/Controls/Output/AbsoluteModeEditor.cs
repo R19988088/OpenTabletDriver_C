@@ -29,26 +29,24 @@ namespace OpenTabletDriver.UX.Controls.Output
                         Expand = true,
                         Control = new Group
                         {
-                            Text = "Display",
                             Content = displayAreaEditor = new DisplayAreaEditor
                             {
                                 InvalidForegroundError = "Invalid display area.",
                                 Unit = "px"
                             }
-                        }
+                        }.Localize(c => { c.Text = Language.T("Display"); })
                     },
                     new StackLayoutItem
                     {
                         Expand = true,
                         Control = new Group
                         {
-                            Text = "Tablet",
                             Content = tabletAreaEditor = new TabletAreaEditor
                             {
                                 InvalidForegroundError = "Invalid tablet area.",
                                 Unit = "mm"
                             }
-                        }
+                        }.Localize(c => { c.Text = Language.T("Tablet"); })
                     }
                 }
             };
@@ -284,7 +282,7 @@ namespace OpenTabletDriver.UX.Controls.Output
         {
             public DisplayAreaEditor()
             {
-                this.ToolTip = "You can right click the area editor to set the area to a display, adjust alignment, or resize the area.";
+                this.ToolTip = Language.T("You can right click the area editor to set the area to a display, adjust alignment, or resize the area.");
             }
 
             protected override void CreateMenu()
@@ -340,7 +338,7 @@ namespace OpenTabletDriver.UX.Controls.Output
         {
             public TabletAreaEditor()
             {
-                this.ToolTip = "You can right click the area editor to enable aspect ratio locking, adjust alignment, or resize the area.";
+                this.ToolTip = Language.T("You can right click the area editor to enable aspect ratio locking, adjust alignment, or resize the area.");
             }
 
             private BooleanCommand? lockArCmd, areaClippingCmd, ignoreOutsideAreaCmd;
@@ -434,18 +432,15 @@ namespace OpenTabletDriver.UX.Controls.Output
 
                 lockArCmd = new BooleanCommand
                 {
-                    MenuText = "Lock aspect ratio"
-                };
+                }.Localize(c => { c.MenuText = Language.T("Lock aspect ratio"); });
 
                 areaClippingCmd = new BooleanCommand
                 {
-                    MenuText = "Clamp input outside area"
-                };
+                }.Localize(c => { c.MenuText = Language.T("Clamp input outside area"); });
 
                 ignoreOutsideAreaCmd = new BooleanCommand
                 {
-                    MenuText = "Ignore input outside area"
-                };
+                }.Localize(c => { c.MenuText = Language.T("Ignore input outside area"); });
 
                 base.ContextMenu.Items.AddRange(
                     new Command[]
@@ -461,9 +456,8 @@ namespace OpenTabletDriver.UX.Controls.Output
                 base.ContextMenu.Items.Add(
                     new ActionCommand
                     {
-                        MenuText = "Convert area...",
                         Action = async () => await ConvertAreaDialog()
-                    }
+                    }.Localize(c => { c.MenuText = Language.T("Convert area..."); })
                 );
 
                 lockArCmd.CheckedBinding.Cast<bool>().Bind(LockAspectRatioBinding);

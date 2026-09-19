@@ -20,12 +20,11 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                     {
                         new Group
                         {
-                            Text = "Auxiliary",
                             Content = auxButtons = new BindingDisplayList
                             {
                                 Prefix = "Auxiliary Binding"
                             }
-                        }
+                        }.Localize(c => { c.Text = Language.T("Auxiliary"); })
                     }
                 }
             };

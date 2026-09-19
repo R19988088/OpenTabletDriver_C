@@ -41,13 +41,11 @@ namespace OpenTabletDriver.UX
 
             saveButton = new Button(async (s, e) => await SaveSettings())
             {
-                Text = "Save"
-            };
+            }.Localize(c => { c.Text = Language.T("Save"); });
 
             applyButton = new Button(async (s, e) => await ApplySettings())
             {
-                Text = "Apply"
-            };
+            }.Localize(c => { c.Text = Language.T("Apply"); });
 
             App.Driver.Connected += HandleDaemonConnected;
             App.Driver.Disconnected += HandleDaemonDisconnected;
@@ -109,7 +107,7 @@ namespace OpenTabletDriver.UX
         private readonly MenuBar fullMenu;
         private readonly Placeholder placeholder = new()
         {
-            Text = "Connecting to OpenTabletDriver Daemon...",
+            Text = Language.T("Connecting to OpenTabletDriver Daemon..."),
         };
 
         private TrayIcon? trayIcon;
@@ -213,13 +211,13 @@ namespace OpenTabletDriver.UX
 
         private static MenuBar ConstructLimitedMenu()
         {
-            var quitCommand = new Command { MenuText = Language.T("Quit"), Shortcut = Application.Instance.CommonModifier | Keys.Q };
+            var quitCommand = new Command { Shortcut = Application.Instance.CommonModifier | Keys.Q }.Localize(c => { c.MenuText = Language.T("Quit"); });
             quitCommand.Executed += (sender, e) => Application.Instance.Quit();
 
-            var aboutCommand = new Command { MenuText = Language.T("About..."), Shortcut = Keys.F1 };
+            var aboutCommand = new Command { Shortcut = Keys.F1 }.Localize(c => { c.MenuText = Language.T("About..."); });
             aboutCommand.Executed += (sender, e) => App.Current.AboutWindow.Show();
 
-            var wikiUrl = new Command { MenuText = Language.T("Open Wiki...") };
+            var wikiUrl = new Command { }.Localize(c => { c.MenuText = Language.T("Open Wiki..."); });
             wikiUrl.Executed += (sender, e) => DesktopInterop.Open(App.WikiUrl);
 
             var menuBar = new MenuBar
@@ -244,65 +242,65 @@ namespace OpenTabletDriver.UX
 
         private MenuBar ConstructMenu()
         {
-            var quitCommand = new Command { MenuText = "Quit", Shortcut = Application.Instance.CommonModifier | Keys.Q };
+            var quitCommand = new Command { Shortcut = Application.Instance.CommonModifier | Keys.Q }.Localize(c => { c.MenuText = Language.T("Quit"); });
             quitCommand.Executed += (sender, e) => Application.Instance.Quit();
 
-            var aboutCommand = new Command { MenuText = "About...", Shortcut = Keys.F1 };
+            var aboutCommand = new Command { Shortcut = Keys.F1 }.Localize(c => { c.MenuText = Language.T("About..."); });
             aboutCommand.Executed += (sender, e) => App.Current.AboutWindow.Show();
 
-            var resetSettings = new Command { MenuText = Language.T("Reset to defaults") };
+            var resetSettings = new Command { }.Localize(c => { c.MenuText = Language.T("Reset to defaults"); });
             resetSettings.Executed += async (sender, e) => await ResetSettingsDialog();
 
-            var loadSettings = new Command { MenuText = "Load settings...", Shortcut = Application.Instance.CommonModifier | Keys.O };
+            var loadSettings = new Command { Shortcut = Application.Instance.CommonModifier | Keys.O }.Localize(c => { c.MenuText = Language.T("Load settings..."); });
             loadSettings.Executed += async (sender, e) => await LoadSettingsDialog();
 
-            var saveSettingsAs = new Command { MenuText = "Save settings as...", Shortcut = Application.Instance.CommonModifier | Keys.Shift | Keys.S };
+            var saveSettingsAs = new Command { Shortcut = Application.Instance.CommonModifier | Keys.Shift | Keys.S }.Localize(c => { c.MenuText = Language.T("Save settings as..."); });
             saveSettingsAs.Executed += async (sender, e) => await SaveSettingsDialog();
 
-            var saveSettings = new Command { MenuText = "Save settings", Shortcut = Application.Instance.CommonModifier | Keys.S };
+            var saveSettings = new Command { Shortcut = Application.Instance.CommonModifier | Keys.S }.Localize(c => { c.MenuText = Language.T("Save settings"); });
             saveSettings.Executed += async (sender, e) => await SaveSettings();
 
-            var applySettings = new Command { MenuText = "Apply settings", Shortcut = Application.Instance.CommonModifier | Keys.Enter };
+            var applySettings = new Command { Shortcut = Application.Instance.CommonModifier | Keys.Enter }.Localize(c => { c.MenuText = Language.T("Apply settings"); });
             applySettings.Executed += async (sender, e) => await ApplySettings();
 
-            var refreshPresets = new Command { MenuText = "Refresh presets" };
+            var refreshPresets = new Command { }.Localize(c => { c.MenuText = Language.T("Refresh presets"); });
             refreshPresets.Executed += async (sender, e) => await RefreshPresets();
 
-            var savePreset = new Command { MenuText = "Save as preset..." };
+            var savePreset = new Command { }.Localize(c => { c.MenuText = Language.T("Save as preset..."); });
             savePreset.Executed += async (sender, e) => await SavePresetDialog();
 
-            var openPresetsDirectory = new Command { MenuText = "Open presets directory..." };
+            var openPresetsDirectory = new Command { }.Localize(c => { c.MenuText = Language.T("Open presets directory..."); });
             openPresetsDirectory.Executed += async (sender, e) => DesktopInterop.OpenFolder(AppInfo.Current.PresetDirectory);
 
-            var detectTablet = new Command { MenuText = "Detect tablet", Shortcut = Application.Instance.CommonModifier | Keys.D };
+            var detectTablet = new Command { Shortcut = Application.Instance.CommonModifier | Keys.D }.Localize(c => { c.MenuText = Language.T("Detect tablet"); });
             detectTablet.Executed += async (sender, e) =>
             {
                 AppInfo.Current.ConfigurationDirectory = null; // force recheck on next access
                 await DetectTablet();
             };
 
-            var showTabletDebugger = new Command { MenuText = "Tablet debugger..." };
+            var showTabletDebugger = new Command { }.Localize(c => { c.MenuText = Language.T("Tablet debugger..."); });
             showTabletDebugger.Executed += (sender, e) => App.Current.DebuggerWindow.Show();
 
-            var deviceStringReader = new Command { MenuText = "Device string reader..." };
+            var deviceStringReader = new Command { }.Localize(c => { c.MenuText = Language.T("Device string reader..."); });
             deviceStringReader.Executed += (sender, e) => App.Current.StringReaderWindow.Show();
 
-            var pluginManager = new Command { MenuText = "Open Plugin Manager..." };
+            var pluginManager = new Command { }.Localize(c => { c.MenuText = Language.T("Open Plugin Manager..."); });
             pluginManager.Executed += (sender, e) => App.Current.PluginManagerWindow.Show();
 
-            var wikiUrl = new Command { MenuText = "Open Wiki..." };
+            var wikiUrl = new Command { }.Localize(c => { c.MenuText = Language.T("Open Wiki..."); });
             wikiUrl.Executed += (sender, e) => DesktopInterop.Open(App.WikiUrl);
 
-            var showGuide = new Command { MenuText = "Show guide..." };
+            var showGuide = new Command { }.Localize(c => { c.MenuText = Language.T("Show guide..."); });
             showGuide.Executed += (sender, e) => App.Current.StartupGreeterWindow.Show();
 
-            var exportDiagnostics = new Command { MenuText = "Export diagnostics..." };
+            var exportDiagnostics = new Command { }.Localize(c => { c.MenuText = Language.T("Export diagnostics..."); });
             exportDiagnostics.Executed += async (sender, e) => await ExportDiagnostics();
 
-            var exportDiagnosticsToClipboard = new Command { MenuText = "Export diagnostics to Clipboard..." };
+            var exportDiagnosticsToClipboard = new Command { }.Localize(c => { c.MenuText = Language.T("Export diagnostics to Clipboard..."); });
             exportDiagnosticsToClipboard.Executed += async (sender, e) => await ExportDiagnosticsToClipboard();
 
-            var updater = new Command { MenuText = "Check for updates..." };
+            var updater = new Command { }.Localize(c => { c.MenuText = Language.T("Check for updates..."); });
             updater.Executed += (sender, e) => App.Current.UpdaterWindow.Show();
 
             var menuBar = new MenuBar
@@ -326,38 +324,34 @@ namespace OpenTabletDriver.UX
                             openPresetsDirectory,
                             new ButtonMenuItem
                             {
-                                Text = "Presets",
                                 Items =
                                 {
                                     new ButtonMenuItem
                                     {
-                                        Text = "No presets loaded",
                                         Enabled = false
-                                    }
+                                    }.Localize(c => { c.Text = Language.T("No presets loaded"); })
                                 }
-                            }
+                            }.Localize(c => { c.Text = Language.T("Presets"); })
                         }
                     },
                     // Tablets submenu
                     new ButtonMenuItem
                     {
-                        Text = Language.T("Tablets"),
                         Items =
                         {
                             detectTablet,
                             showTabletDebugger,
                             deviceStringReader,
                         }
-                    },
+                    }.Localize(c => { c.Text = Language.T("Tablets"); }),
                     // Plugins submenu
                     new ButtonMenuItem
                     {
-                        Text = Language.T("Plugins"),
                         Items =
                         {
                             pluginManager
                         }
-                    },
+                    }.Localize(c => { c.Text = Language.T("Plugins"); }),
                     new ButtonMenuItem
                     {
                         Text = "&" + Language.T("Help"),
@@ -470,15 +464,15 @@ namespace OpenTabletDriver.UX
 
         private Button CreateLanguageButton()
         {
-            languageButton = new Button { Text = Language.T("Language") };
+            languageButton = new Button { }.Localize(c => { c.Text = Language.T("Language"); });
             languageButton.Click += (_, _) =>
             {
                 var menu = new ContextMenu
                 {
                     Items =
                     {
-                        new CheckMenuItem { Text = Language.T("Chinese"), Checked = Language.IsChinese },
-                        new CheckMenuItem { Text = Language.T("English"), Checked = !Language.IsChinese }
+                        new CheckMenuItem { Checked = Language.IsChinese }.Localize(c => { c.Text = Language.T("Chinese"); }),
+                        new CheckMenuItem { Checked = !Language.IsChinese }.Localize(c => { c.Text = Language.T("English"); })
                     }
                 };
                 menu.Items[0].Click += (_, _) => { Language.SetChinese(true); RefreshLanguage(); };
@@ -699,9 +693,8 @@ namespace OpenTabletDriver.UX
             {
                 var emptyPresetsItem = new ButtonMenuItem
                 {
-                    Text = "No presets loaded",
                     Enabled = false
-                };
+                }.Localize(c => { c.Text = Language.T("No presets loaded"); });
 
                 presetsMenu.Items.Add(emptyPresetsItem);
             }

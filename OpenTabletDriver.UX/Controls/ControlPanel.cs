@@ -19,59 +19,45 @@ namespace OpenTabletDriver.UX.Controls
 
             control.Pages.Add(new TabPage
             {
-                Text = Language.T("Output"),
                 Content = outputModeEditor = new()
-            });
+            }.Localize(c => { c.Text = Language.T("Output"); }));
 
             control.Pages.Add(new TabPage
             {
-                Text = Language.T("Filters"),
-                Padding = 5,
-                Content = filterEditor = new()
-            });
+                Padding = 5,                Content = filterEditor = new()
+            }.Localize(c => { c.Text = Language.T("Filters"); }));
 
             control.Pages.Add(new TabPage
             {
-                Text = Language.T("Pen Settings"),
                 Content = penBindingEditor = new PenBindingEditor()
-            });
+            }.Localize(c => { c.Text = Language.T("Pen Settings"); }));
 
             control.Pages.Add(new TabPage
             {
-                Text = Language.T("Auxiliary Settings"),
                 Content = auxBindingEditor = new AuxiliaryBindingEditor()
-            });
+            }.Localize(c => { c.Text = Language.T("Auxiliary Settings"); }));
 
             control.Pages.Add(new TabPage
             {
-                ID = "mouse",
-                Text = Language.T("Mouse Settings"),
-                Content = mouseBindingEditor = new MouseBindingEditor()
-            });
+                ID = "mouse",                Content = mouseBindingEditor = new MouseBindingEditor()
+            }.Localize(c => { c.Text = Language.T("Mouse Settings"); }));
 
             control.Pages.Add(new TabPage
             {
-                Text = Language.T("Tools"),
-                Padding = 5,
-                Content = toolEditor = new()
-            });
+                Padding = 5,                Content = toolEditor = new()
+            }.Localize(c => { c.Text = Language.T("Tools"); }));
 
             control.Pages.Add(new TabPage
             {
-                Text = Language.T("Info"),
-                Padding = 5,
-                Content = placeholder = new Placeholder
+                Padding = 5,                Content = placeholder = new Placeholder
                 {
-                    Text = Language.T("No tablets are detected.")
-                }
-            });
+                }.Localize(c => { c.Text = Language.T("No tablets are detected."); })
+            }.Localize(c => { c.Text = Language.T("Info"); }));
 
             control.Pages.Add(new TabPage
             {
-                Text = Language.T("Console"),
-                Padding = 5,
-                Content = logView = new()
-            });
+                Padding = 5,                Content = logView = new()
+            }.Localize(c => { c.Text = Language.T("Console"); }));
 
             this.Content = tabControl = control;
             Language.Changed += (_, _) =>

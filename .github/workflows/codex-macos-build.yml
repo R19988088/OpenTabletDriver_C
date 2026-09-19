@@ -21,7 +21,7 @@ jobs:
       - name: Build macOS arm64 app
         run: |
           set +e
-          VERSION_SUFFIX=-ci /opt/homebrew/bin/bash ./build.sh --runtime osx-arm64 --signed false --output dist
+          VERSION_SUFFIX=-ci /opt/homebrew/bin/bash ./build.sh --configuration Release --runtime osx-arm64 --signed false --output dist
           status=$?
           set -e
           test -d dist/OpenTabletDriver.app

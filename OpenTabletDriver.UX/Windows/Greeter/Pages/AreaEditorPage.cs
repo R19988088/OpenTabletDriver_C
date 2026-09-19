@@ -19,7 +19,6 @@ namespace OpenTabletDriver.UX.Windows.Greeter.Pages
                     Expand = true,
                     Control = new Group
                     {
-                        Text = "Demo Area Editor",
                         Content = new RotationAreaEditor
                         {
                             Area = new AreaSettings
@@ -36,7 +35,7 @@ namespace OpenTabletDriver.UX.Windows.Greeter.Pages
                                 new RectangleF(0, 0, 150, 150),
                             ]
                         }
-                    }
+                    }.Localize(c => { c.Text = Language.T("Demo Area Editor"); })
                 },
                 new StylizedText("This is the area editor.", SystemFonts.Bold(9), new Padding(0, 0, 0, 4)),
                 "You can right click the absolute output mode area editor for more options.",

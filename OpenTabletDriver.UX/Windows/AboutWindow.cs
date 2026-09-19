@@ -36,7 +36,7 @@ namespace OpenTabletDriver.UX.Windows
         public AboutWindow()
             : base(Application.Instance.MainForm)
         {
-            Title = "About OpenTabletDriver";
+            Title = Language.T("About OpenTabletDriver");
 
             _tabControl = new TabControl();
 
@@ -83,22 +83,17 @@ namespace OpenTabletDriver.UX.Windows
                     },
                     new Label
                     {
-                        Text = "Open source, cross-platform tablet configurator",
-                    },
+                    }.Localize(c => { c.Text = Language.T("Open source, cross-platform tablet configurator"); }),
                     new LinkButton
                     {
-                        Text = "OpenTabletDriver Github Repository",
-                        Command = new Command((_, _) => Application.Instance.Open(App.Website.ToString())),
-                    },
+                        Command = new Command((_, _) => Application.Instance.Open(App.Website.ToString()))                    }.Localize(c => { c.Text = Language.T("OpenTabletDriver Github Repository"); }),
                     new CommandLabel
                     {
-                        Text = "In memory of jamesbt365",
-                        Command = new Command((_, _) => ShowMemoriamTab()),
-                    },
+                        Command = new Command((_, _) => ShowMemoriamTab())                    }.Localize(c => { c.Text = Language.T("In memory of jamesbt365"); }),
                 }
             };
 
-            return new TabPage(aboutTabContent) { Text = "About" };
+            return new TabPage(aboutTabContent) { }.Localize(c => { c.Text = Language.T("About"); });
         }
 
         private TabPage GenerateCreditsTabPage()
@@ -128,7 +123,7 @@ namespace OpenTabletDriver.UX.Windows
                 $"OpenTabletDriver v{App.Version} Credits",
                 creditsTabContentControl);
 
-            return new TabPage(creditsTabContent) { Text = "Credits" };
+            return new TabPage(creditsTabContent) { }.Localize(c => { c.Text = Language.T("Credits"); });
         }
 
         private static TabPage GenerateLicenseTabPage()
@@ -152,7 +147,7 @@ namespace OpenTabletDriver.UX.Windows
                 $"OpenTabletDriver v{App.Version} License",
                 licenseTabContentControl);
 
-            return new TabPage(licenseTabContent) { Text = "License" };
+            return new TabPage(licenseTabContent) { }.Localize(c => { c.Text = Language.T("License"); });
         }
 
         private static TabPage GenerateMemoriamTabPage()
@@ -175,7 +170,7 @@ namespace OpenTabletDriver.UX.Windows
                 "In Memory of James",
                 memoriamTabContentControl);
 
-            return new TabPage(memoriamTabContent) { Text = "Memoriam" };
+            return new TabPage(memoriamTabContent) { }.Localize(c => { c.Text = Language.T("Memoriam"); });
         }
 
         #endregion Tab Pages

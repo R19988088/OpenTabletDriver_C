@@ -27,7 +27,6 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                                     {
                                         new Group
                                         {
-                                            Text = "Tip Settings",
                                             Content = new StackLayout
                                             {
                                                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
@@ -36,25 +35,17 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                                                 {
                                                     new Group
                                                     {
-                                                        Text = "Tip Binding",
-                                                        Orientation = Orientation.Horizontal,
-                                                        ExpandContent = false,
-                                                        Content = tipButton = new BindingDisplay()
-                                                    },
+                                                        Orientation = Orientation.Horizontal,                                                        ExpandContent = false,                                                        Content = tipButton = new BindingDisplay()
+                                                    }.Localize(c => { c.Text = Language.T("Tip Binding"); }),
                                                     new UnitGroup
                                                     {
-                                                        Text = "Tip Threshold",
-                                                        ToolTip = "The minimum threshold in order for the assigned binding to activate.",
-                                                        Orientation = Orientation.Horizontal,
-                                                        Content = tipThreshold = new FloatSlider(),
-                                                        Unit = "%"
-                                                    }
+                                                        Orientation = Orientation.Horizontal,                                                        Content = tipThreshold = new FloatSlider(),                                                        Unit = "%"
+                                                    }.Localize(c => { c.Text = Language.T("Tip Threshold"); c.ToolTip = Language.T("The minimum threshold in order for the assigned binding to activate."); })
                                                 }
                                             }
-                                        },
+                                        }.Localize(c => { c.Text = Language.T("Tip Settings"); }),
                                         new Group
                                         {
-                                            Text = "Eraser Settings",
                                             Content = new StackLayout
                                             {
                                                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
@@ -63,70 +54,49 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                                                 {
                                                     new Group
                                                     {
-                                                        Text = "Eraser Binding",
-                                                        ExpandContent = false,
-                                                        Orientation = Orientation.Horizontal,
-                                                        Content = eraserButton = new BindingDisplay()
-                                                    },
+                                                        ExpandContent = false,                                                        Orientation = Orientation.Horizontal,                                                        Content = eraserButton = new BindingDisplay()
+                                                    }.Localize(c => { c.Text = Language.T("Eraser Binding"); }),
                                                     new UnitGroup
                                                     {
-                                                        Text = "Eraser Threshold",
-                                                        ToolTip = "The minimum threshold in order for the assigned binding to activate.",
-                                                        Orientation = Orientation.Horizontal,
-                                                        Content = eraserThreshold = new FloatSlider(),
-                                                        Unit = "%"
-                                                    }
+                                                        Orientation = Orientation.Horizontal,                                                        Content = eraserThreshold = new FloatSlider(),                                                        Unit = "%"
+                                                    }.Localize(c => { c.Text = Language.T("Eraser Threshold"); c.ToolTip = Language.T("The minimum threshold in order for the assigned binding to activate."); })
                                                 }
                                             }
-                                        }
+                                        }.Localize(c => { c.Text = Language.T("Eraser Settings"); })
                                     }
                                 }
                             }
                         },
                         new Group
                         {
-                            Text = "Pen Buttons",
                             Content = penButtons = new BindingDisplayList
                             {
                                 Prefix = "Pen Binding"
                             }
-                        },
+                        }.Localize(c => { c.Text = Language.T("Pen Buttons"); }),
                         new Group {
-                            Text = "Miscellaneous",
                             Content = new StackLayout {
                                 Orientation = Orientation.Horizontal,
                                 Items = {
                                     new Group {
-                                        Orientation = Orientation.Horizontal,
-                                        ToolTip = "Disable pressure if it is available",
-                                        Content = disablePressure = new CheckBox {
-                                            Text = "Disable Pressure",
-                                        }
-                                    },
+                                        Orientation = Orientation.Horizontal,                                        Content = disablePressure = new CheckBox {
+                                        }.Localize(c => { c.Text = Language.T("Disable Pressure"); })
+                                    }.Localize(c => { c.ToolTip = Language.T("Disable pressure if it is available"); }),
                                     new Group {
-                                        Orientation = Orientation.Horizontal,
-                                        ToolTip = "Disable tilt if it is available",
-                                        Content = disableTilt = new CheckBox {
-                                            Text = "Disable Tilt",
-                                        }
-                                    },
+                                        Orientation = Orientation.Horizontal,                                        Content = disableTilt = new CheckBox {
+                                        }.Localize(c => { c.Text = Language.T("Disable Tilt"); })
+                                    }.Localize(c => { c.ToolTip = Language.T("Disable tilt if it is available"); }),
                                     new Group {
-                                        Orientation = Orientation.Horizontal,
-                                        ToolTip = "Disable rotation if it is available",
-                                        Content = disableRotation = new CheckBox {
-                                            Text = "Disable Rotation",
-                                        }
-                                    },
+                                        Orientation = Orientation.Horizontal,                                        Content = disableRotation = new CheckBox {
+                                        }.Localize(c => { c.Text = Language.T("Disable Rotation"); })
+                                    }.Localize(c => { c.ToolTip = Language.T("Disable rotation if it is available"); }),
                                     new Group {
-                                        Orientation = Orientation.Horizontal,
-                                        ToolTip = "Pen Bindings require pressure to activate",
-                                        Content = enableDragBindings = new CheckBox {
-                                            Text = "Drag Bindings",
-                                        }
-                                    },
+                                        Orientation = Orientation.Horizontal,                                        Content = enableDragBindings = new CheckBox {
+                                        }.Localize(c => { c.Text = Language.T("Drag Bindings"); })
+                                    }.Localize(c => { c.ToolTip = Language.T("Pen Bindings require pressure to activate"); }),
                                 }
                             }
-                        }
+                        }.Localize(c => { c.Text = Language.T("Miscellaneous"); })
                     }
                 }
             };

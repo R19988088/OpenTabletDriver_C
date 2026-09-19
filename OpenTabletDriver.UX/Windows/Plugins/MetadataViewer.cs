@@ -28,8 +28,7 @@ namespace OpenTabletDriver.UX.Windows.Plugins
                         Expand = true,
                         Control = uninstallButton = new Button(UninstallHandler)
                         {
-                            Text = "Uninstall"
-                        }
+                        }.Localize(c => { c.Text = Language.T("Uninstall"); })
                     },
                     new StackLayoutItem
                     {
@@ -81,65 +80,51 @@ namespace OpenTabletDriver.UX.Windows.Plugins
                     {
                         new AlignedGroup
                         {
-                            Text = "Name",
                             Content = name = new Label()
-                        },
+                        }.Localize(c => { c.Text = Language.T("Name"); }),
                         new AlignedGroup
                         {
-                            Text = "Owner",
                             Content = owner = new Label()
-                        },
+                        }.Localize(c => { c.Text = Language.T("Owner"); }),
                         new AlignedGroup
                         {
-                            Text = "Creator",
                             Content = creator = new Label()
-                        },
+                        }.Localize(c => { c.Text = Language.T("Creator"); }),
                         new AlignedGroup
                         {
-                            Text = "Description",
                             Content = description = new Label
                             {
                                 Wrap = WrapMode.Word
                             }
-                        },
+                        }.Localize(c => { c.Text = Language.T("Description"); }),
                         new AlignedGroup
                         {
-                            Text = "Driver Version",
                             Content = driverVersion = new Label()
-                        },
+                        }.Localize(c => { c.Text = Language.T("Driver Version"); }),
                         new AlignedGroup
                         {
-                            Text = "Max Supported Driver Version",
                             Content = maxDriverVersion = new Label()
-                        },
+                        }.Localize(c => { c.Text = Language.T("Max Supported Driver Version"); }),
                         new AlignedGroup
                         {
-                            Text = "Plugin Version",
                             Content = pluginVersion = new Label()
-                        },
+                        }.Localize(c => { c.Text = Language.T("Plugin Version"); }),
                         new AlignedGroup
                         {
-                            Text = "Source Code Repository",
                             Content = sourceCode = new Button
                             {
-                                Width = 175,
-                                Text = "Show source code"
-                            }
-                        },
+                                Width = 175                            }.Localize(c => { c.Text = Language.T("Show source code"); })
+                        }.Localize(c => { c.Text = Language.T("Source Code Repository"); }),
                         new AlignedGroup
                         {
-                            Text = "Wiki",
                             Content = wiki = new Button
                             {
-                                Width = 175,
-                                Text = "Show plugin wiki"
-                            }
-                        },
+                                Width = 175                            }.Localize(c => { c.Text = Language.T("Show plugin wiki"); })
+                        }.Localize(c => { c.Text = Language.T("Wiki"); }),
                         new AlignedGroup
                         {
-                            Text = "License",
                             Content = license = new Label()
-                        },
+                        }.Localize(c => { c.Text = Language.T("License"); }),
                         new StackLayoutItem(null, true),
                         actions
                     }
@@ -168,7 +153,7 @@ namespace OpenTabletDriver.UX.Windows.Plugins
         private StackLayout actions;
         private Placeholder placeholder = new()
         {
-            Text = "No plugin selected.",
+            Text = Language.T("No plugin selected."),
         };
 
         private Label name, owner, creator, description, driverVersion, maxDriverVersion, pluginVersion, license;

@@ -44,23 +44,15 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                                 {
                                     Control = widthGroup = new UnitGroup
                                     {
-                                        Text = "Width",
-                                        Unit = Unit,
-                                        ToolTip = $"Area width in {Unit}",
-                                        Orientation = Orientation.Horizontal,
-                                        Content = width = new FloatNumberBox()
-                                    }
+                                        Unit = Unit,                                        ToolTip = $"Area width in {Unit}",                                        Orientation = Orientation.Horizontal,                                        Content = width = new FloatNumberBox()
+                                    }.Localize(c => { c.Text = Language.T("Width"); })
                                 },
                                 new StackLayoutItem
                                 {
                                     Control = heightGroup = new UnitGroup
                                     {
-                                        Text = "Height",
-                                        Unit = Unit,
-                                        ToolTip = $"Area height in {Unit}",
-                                        Orientation = Orientation.Horizontal,
-                                        Content = height = new FloatNumberBox()
-                                    }
+                                        Unit = Unit,                                        ToolTip = $"Area height in {Unit}",                                        Orientation = Orientation.Horizontal,                                        Content = height = new FloatNumberBox()
+                                    }.Localize(c => { c.Text = Language.T("Height"); })
                                 },
                                 new StackLayoutItem
                                 {
@@ -123,8 +115,7 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
 
         private BooleanCommand lockToUsableArea = new BooleanCommand
         {
-            MenuText = "Lock to usable area"
-        };
+        }.Localize(c => { c.MenuText = Language.T("Lock to usable area"); });
 
         private UnitGroup widthGroup, heightGroup, xGroup, yGroup;
         private MaskedTextBox<float> width, height, x, y;
@@ -204,48 +195,40 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                 {
                     new ButtonMenuItem
                     {
-                        Text = Language.T("Align"),
                         Items =
                         {
                             new ActionCommand
                             {
-                                MenuText = Language.T("Left"),
                                 Action = () => Area!.X = GetAreaCenterOffset().X
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Left"); }),
                             new ActionCommand
                             {
-                                MenuText = Language.T("Right"),
                                 Action = () => Area!.X = FullAreaBounds!.Value.Width - GetAreaCenterOffset().X
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Right"); }),
                             new ActionCommand
                             {
-                                MenuText = Language.T("Top"),
                                 Action = () => Area!.Y = GetAreaCenterOffset().Y
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Top"); }),
                             new ActionCommand
                             {
-                                MenuText = Language.T("Bottom"),
                                 Action = () => Area!.Y = FullAreaBounds!.Value.Height - GetAreaCenterOffset().Y
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Bottom"); }),
                             new ActionCommand
                             {
-                                MenuText = Language.T("Center"),
                                 Action = () =>
                                 {
                                     Area!.X = FullAreaBounds!.Value.Center.X;
                                     Area!.Y = FullAreaBounds!.Value.Center.Y;
                                 }
-                            }
+                            }.Localize(c => { c.MenuText = Language.T("Center"); })
                         }
-                    },
+                    }.Localize(c => { c.Text = Language.T("Align"); }),
                     new ButtonMenuItem
                     {
-                        Text = Language.T("Resize"),
                         Items =
                         {
                             new ActionCommand
                             {
-                                MenuText = Language.T("Full area"),
                                 Action = () =>
                                 {
                                     FullAreaCommandExecuting = true;
@@ -255,35 +238,31 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                                     Area!.X = FullAreaBounds!.Value.Center.X;
                                     FullAreaCommandExecuting = false;
                                 }
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Full area"); }),
                             new ActionCommand
                             {
-                                MenuText = Language.T("Quarter area"),
                                 Action = () =>
                                 {
                                     Area!.Height = FullAreaBounds!.Value.Height / 2;
                                     Area!.Width = FullAreaBounds!.Value.Width / 2;
                                 }
-                            }
+                            }.Localize(c => { c.MenuText = Language.T("Quarter area"); })
                         }
-                    },
+                    }.Localize(c => { c.Text = Language.T("Resize"); }),
                     new ButtonMenuItem
                     {
-                        Text = Language.T("Flip"),
                         Items =
                         {
                             new ActionCommand
                             {
-                                MenuText = Language.T("Horizontal"),
                                 Action = () => Area!.X = FullAreaBounds!.Value.Width - Area.X
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Horizontal"); }),
                             new ActionCommand
                             {
-                                MenuText = Language.T("Vertical"),
                                 Action = () => Area!.Y = FullAreaBounds!.Value.Height - Area.Y
-                            }
+                            }.Localize(c => { c.MenuText = Language.T("Vertical"); })
                         }
-                    },
+                    }.Localize(c => { c.Text = Language.T("Flip"); }),
                     lockToUsableArea
                 }
             };
