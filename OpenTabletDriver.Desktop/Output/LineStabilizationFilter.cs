@@ -61,7 +61,7 @@ namespace OpenTabletDriver.Desktop.Output
                 : Math.Min(maximum16, (int)Math.Round(report.Pressure * (double)PressureScale / maxPenPressure));
             var normalized = raw16 <= configuredDeadZone
                 ? 0
-                : Math.Min(PressureScale, (raw16 - configuredDeadZone) * PressureScale / (maximum16 - configuredDeadZone));
+                : (int)Math.Min(PressureScale, (long)(raw16 - configuredDeadZone) * PressureScale / (maximum16 - configuredDeadZone));
 
             if (normalized == 0)
             {

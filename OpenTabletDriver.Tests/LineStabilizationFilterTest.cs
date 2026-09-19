@@ -89,6 +89,25 @@ namespace OpenTabletDriver.Tests
         }
 
         [Fact]
+        public void HighPressureDoesNotOverflowNormalization()
+        {
+            var filter = CreateFilter(new LineStabilizationSettings
+            {
+                CoordinateWindow = 1,
+                PressureWindow = 1,
+                DeadZone = 0.1f,
+                DefaultMaximumPressure = 0.76f,
+                Elasticity = 1
+            }, out var emitted);
+
+            filter.Consume(Report(0, 0, 1000));
+            filter.Consume(Report(1, 0, 1000));
+
+            Assert.Equal(1u, ((ITabletReport)emitted[0]).Pressure);
+            Assert.Equal(1000u, ((ITabletReport)emitted[1]).Pressure);
+        }
+
+        [Fact]
         public void SerialChangesOnlyMaximumPressureAndOutOfRangeRestoresFallback()
         {
             var settings = new LineStabilizationSettings
