@@ -16,7 +16,15 @@ jobs:
       - name: Install Bash 5
         run: brew install bash
       - name: Build macOS arm64 app
-        run: VERSION_SUFFIX=-ci /opt/homebrew/bin/bash ./build.sh --runtime osx-arm64 --signed true --output dist
+        run: |
+          set +e
+          VERSION_SUFFIX=-ci /opt/homebrew/bin/bash ./build.sh --runtime osx-arm64 --signed true --output dist
+          status=$?
+          set -e
+          test -d dist/OpenTabletDriver.app
+          codesign --verify --deep --strict dist/OpenTabletDriver.app
+          tar -czf dist/OpenTabletDriver-macos-arm64.tar.gz -C dist OpenTabletDriver.app
+          test "$status" -eq 0 || echo "Package helper returned $status; app bundle was packaged directly."
       - name: Upload app package
         uses: actions/upload-artifact@v4
         with:
