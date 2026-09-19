@@ -37,7 +37,7 @@ jobs:
       - name: Publish DMG
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: codex-language-build
+          tag_name: v1.01
           name: OpenTabletDriver macOS ARM64
           prerelease: true
           files: dist/*.dmg
