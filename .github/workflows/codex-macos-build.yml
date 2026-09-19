@@ -24,6 +24,7 @@ jobs:
           test -d dist/OpenTabletDriver.app
           codesign --verify --deep --strict dist/OpenTabletDriver.app
           find . -type d \( -name bin -o -name obj \) -prune -exec rm -rf {} +
+          rm -rf "$HOME/.nuget/packages" "$HOME/Library/Caches"/*
           hdiutil create -ov -format UDZO \
             -srcfolder dist/OpenTabletDriver.app \
             dist/OpenTabletDriver-macos-arm64.dmg
