@@ -42,6 +42,8 @@ namespace OpenTabletDriver.Desktop.Interop.Input
         private Vector2? _tilt;
         private bool? _isEraser;
         private CGMouseButton _lastButton;
+        private CGMouseButton _lastClickButton;
+        private bool _hasLastClickButton;
         private Vector2 _lastMouseDownPosition;
         private bool _mouseMovedSinceLastDown;
 
@@ -125,6 +127,13 @@ namespace OpenTabletDriver.Desktop.Interop.Input
                 _prevButtonStates = 0;
                 _currButtonStates = 0;
             }
+
+            // Leaving the tablet range ends the click sequence. Do not let a
+            // quick re-entry inherit the previous click state.
+            _clickState = 0;
+            _hasLastClickButton = false;
+            _mouseMovedSinceLastDown = true;
+            _doubleClickStopWatch.Reset();
         }
 
         public void SetEraser(bool isEraser)
@@ -211,16 +220,25 @@ namespace OpenTabletDriver.Desktop.Interop.Input
 
                 if (currState != prevState)
                 {
+                    // Multiple button transitions can share one report. Reuse the
+                    // current system position for each event instead of falling
+                    // back to the origin after the first event drains the queue.
+                    if (!_pendingX.HasValue)
+                        QueuePendingPositionFromSystem();
+
                     var doubleClickInvalidated = _mouseMovedSinceLastDown || _doubleClickStopWatch.ElapsedMilliseconds > _doubleClickIntervalInMs;
 
                     if (currState)
                     {
-                        if (_pendingX.HasValue && (_clickState == 0 || doubleClickInvalidated))
+                        var differentButton = _hasLastClickButton && _lastClickButton != button;
+                        if (_pendingX.HasValue && (_clickState == 0 || differentButton || doubleClickInvalidated))
                         {
                             _doubleClickStopWatch.Restart();
                             _lastMouseDownPosition = new Vector2(_pendingX.Value, _pendingY!.Value);
                             _mouseMovedSinceLastDown = false;
                             _clickState = 1;
+                            _lastClickButton = button;
+                            _hasLastClickButton = true;
                         }
                         else
                         {

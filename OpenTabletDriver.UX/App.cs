@@ -56,7 +56,7 @@ namespace OpenTabletDriver.UX
         {
             var app = new Application(platform);
             var mainForm = new MainForm();
-            if (options.StartMinimized)
+            if (options.StartMinimized || EnableTrayIcon)
             {
                 mainForm.WindowState = WindowState.Minimized;
                 if (EnableTrayIcon)
