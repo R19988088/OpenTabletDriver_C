@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenTabletDriver.Desktop;
 using OpenTabletDriver.Desktop.Binding;
@@ -32,6 +33,7 @@ namespace OpenTabletDriver.Daemon
     public class DriverDaemon : IDriverDaemon
     {
         private const string AVALONIA_REVISION = "0.7.0.0";
+        private readonly SemaphoreSlim _deviceRefreshGate = new(1, 1);
 
         public DriverDaemon(Driver driver)
         {
@@ -46,21 +48,7 @@ namespace OpenTabletDriver.Daemon
 
             InitializePlatform();
             Driver.TabletsChanged += (sender, e) => TabletsChanged?.Invoke(sender, e);
-            Driver.CompositeDeviceHub.DevicesChanged += async (sender, args) =>
-            {
-                if (!args.Additions.Any()) return;
-
-                // only re-initialize pipeline if a relevant device is plugged in
-                if (args.Additions.Any(x => Driver.KnownVendorIDs.Contains(x.VendorID)))
-                {
-                    await DetectTablets();
-                    await SetSettings(Settings);
-                }
-                else
-                {
-                    Log.Write(nameof(DriverDaemon), "No known tablets added, skipping detect", LogLevel.Debug);
-                }
-            };
+            Driver.CompositeDeviceHub.DevicesChanged += HandleDevicesChanged;
 
             foreach (var driverInfo in DriverInfo.GetDriverInfos())
             {
@@ -100,9 +88,47 @@ namespace OpenTabletDriver.Daemon
                     return;
 
                 Log.Write(nameof(DriverDaemon), "Sleep detected...");
-                await DetectTablets();
-                await SetSettings(Settings);
+                await RefreshDevicesAsync();
             };
+        }
+
+        private async void HandleDevicesChanged(object? sender, DevicesChangedEventArgs args)
+        {
+            try
+            {
+                if (!args.Additions.Any())
+                    return;
+
+                // only re-initialize pipeline if a relevant device is plugged in
+                if (args.Additions.Any(x => Driver.KnownVendorIDs.Contains(x.VendorID)))
+                    await RefreshDevicesAsync();
+                else
+                    Log.Write(nameof(DriverDaemon), "No known tablets added, skipping detect", LogLevel.Debug);
+            }
+            catch (Exception ex)
+            {
+                // Device notifications are raised from an async-void event path.
+                // Never let a transient hotplug failure terminate the daemon.
+                Log.Exception(ex);
+            }
+        }
+
+        private async Task RefreshDevicesAsync()
+        {
+            await _deviceRefreshGate.WaitAsync().ConfigureAwait(false);
+            try
+            {
+                await DetectTablets().ConfigureAwait(false);
+                await SetSettings(Settings).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
+            }
+            finally
+            {
+                _deviceRefreshGate.Release();
+            }
         }
 
         private static IEnumerable<string> safeGetProcessDetails(Process[] processes)
