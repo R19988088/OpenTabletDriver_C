@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Security.Principal;
 using Eto.Forms;
 
@@ -6,9 +7,21 @@ namespace OpenTabletDriver.UX.Wpf
 {
     class Program
     {
+        private const string DAEMON_ARG = "--daemon";
+
         [STAThread]
         public static void Main(string[] args)
         {
+            // Ships as a single executable: when asked to be the driver backend, run the daemon
+            // in this same process so no separate OpenTabletDriver.Daemon.exe is required.
+            if (args.Contains(DAEMON_ARG))
+            {
+                Daemon.Program.Main(args.Where(a => a != DAEMON_ARG).ToArray()).GetAwaiter().GetResult();
+                return;
+            }
+
+            DaemonWatchdog.SelfHostArgument = DAEMON_ARG;
+
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new(identity);
             if (principal.IsInRole(WindowsBuiltInRole.Administrator))
