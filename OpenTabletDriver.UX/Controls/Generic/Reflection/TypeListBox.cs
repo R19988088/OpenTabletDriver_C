@@ -11,7 +11,7 @@ namespace OpenTabletDriver.UX.Controls.Generic.Reflection
     {
         public TypeListBox()
         {
-            this.ItemTextBinding = Binding.Property<TypeInfo, string>(t => t.GetFriendlyName());
+            this.ItemTextBinding = Binding.Property<TypeInfo, string>(t => t.GetLocalizedFriendlyName());
             this.ItemKeyBinding = Binding.Property<TypeInfo, string>(t => t.FullName!);
 
             AppInfo.PluginManager.AssembliesChanged += HandleAssembliesChanged;

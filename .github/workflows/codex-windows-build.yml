@@ -65,10 +65,19 @@ jobs:
           if-no-files-found: error
           compression-level: 0
 
+      # GitHub release assets must be files, so the release gets a single zip whose only
+      # top-level entry is the folder. Nothing else is nested inside it.
+      - name: Archive release asset
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "out/${{ steps.version.outputs.name }}" `
+            -DestinationPath "${{ steps.version.outputs.name }}.zip" -Force
+
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.value }}
           name: OpenTabletDriver ${{ steps.version.outputs.value }} (codex)
           prerelease: true
-          files: out/${{ steps.version.outputs.name }}
+          files: ${{ steps.version.outputs.name }}.zip
+          fail_on_unmatched_files: true
