@@ -23,6 +23,8 @@ namespace OpenTabletDriver.Configurations.Parsers.Wacom.Intuos3
 
         private IDeviceReport GetToolReport(byte[] data)
         {
+            if (data[1] == 0x80)
+                return new OutOfRangeReport(data);
             if (data[1] == 0xEA || data[1] == 0xAA)
                 return new IntuosV1RotationReport(data, ref _prevPressure, ref _prevTilt, ref _prevRotation, ref _prevPenButtons);
             if ((data[1] & 0xF0) == 0xE0 || (data[1] & 0xF0) == 0xA0)

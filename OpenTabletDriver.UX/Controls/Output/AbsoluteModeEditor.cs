@@ -26,35 +26,32 @@ namespace OpenTabletDriver.UX.Controls.Output
                         Expand = true,
                         Control = new Group
                         {
-                            Text = "Display",
                             Content = displayAreaEditor = new DisplayAreaEditor(() => HandleAspectRatioLock(displayAreaEditor, EventArgs.Empty))
                             {
                                 InvalidForegroundError = "Invalid display area.",
                                 Unit = "px"
                             }
-                        }
+                        }.Localize(c => { c.Text = Language.T("Display"); })
                     },
                     new StackLayoutItem
                     {
                         Expand = true,
                         Control = new Group
                         {
-                            Text = "Tablet",
                             Content = tabletAreaEditor = new TabletAreaEditor
                             {
                                 InvalidForegroundError = "Invalid tablet area.",
                                 Unit = "mm"
                             }
-                        }
+                        }.Localize(c => { c.Text = Language.T("Tablet"); })
                     }
                 }
             };
 
-            tabletAreaEditor.ContextMenu.Items.GetSubmenu("Resize").Items.AddRange(
+            tabletAreaEditor.ContextMenu.Items.GetSubmenu(Language.T("Resize")).Items.AddRange(
                 [
                     new ActionCommand
                     {
-                        MenuText = "Full area",
                         Action = () =>
                         {
                             Vector2 tabletSize = new Vector2(tabletAreaEditor.FullAreaBounds!.Value.Width, tabletAreaEditor.FullAreaBounds!.Value.Height);
@@ -65,10 +62,9 @@ namespace OpenTabletDriver.UX.Controls.Output
                             tabletAreaEditor.Area!.Width = largestArea.X;
                             tabletAreaEditor.Area!.Height = largestArea.Y;
                         }
-                    },
+                    }.Localize(c => { c.MenuText = Language.T("Full area"); }),
                     new ActionCommand
                     {
-                        MenuText = "Quarter area",
                         Action = () =>
                         {
                             Vector2 tabletSize = new Vector2(tabletAreaEditor.FullAreaBounds!.Value.Width, tabletAreaEditor.FullAreaBounds!.Value.Height);
@@ -79,7 +75,7 @@ namespace OpenTabletDriver.UX.Controls.Output
                             tabletAreaEditor.Area!.Width = largestArea.X / 2;
                             tabletAreaEditor.Area!.Height = largestArea.Y / 2;
                         }
-                    }
+                    }.Localize(c => { c.MenuText = Language.T("Quarter area"); })
                 ]
             );
 

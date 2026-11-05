@@ -19,7 +19,6 @@ namespace OpenTabletDriver.UX.Windows.Greeter.Pages
                     Expand = true,
                     Control = new Group
                     {
-                        Text = "Demo",
                         Content = new StackedContent
                         {
                             new PaddingSpacerItem(),
@@ -28,9 +27,7 @@ namespace OpenTabletDriver.UX.Windows.Greeter.Pages
                                 HorizontalAlignment = HorizontalAlignment.Stretch,
                                 Control = new Group
                                 {
-                                    Text = "Demo Binding",
-                                    Orientation = Orientation.Horizontal,
-                                    Content = new StackLayout
+                                    Orientation = Orientation.Horizontal,                                    Content = new StackLayout
                                     {
                                         Orientation = Orientation.Horizontal,
                                         Items =
@@ -45,11 +42,11 @@ namespace OpenTabletDriver.UX.Windows.Greeter.Pages
                                             }
                                         }
                                     }
-                                }
+                                }.Localize(c => { c.Text = Language.T("Demo Binding"); })
                             },
                             new PaddingSpacerItem()
                         }
-                    }
+                    }.Localize(c => { c.Text = Language.T("Demo"); })
                 },
                 new StylizedText("This is the binding editor.", SystemFonts.Bold(9), new Padding(0, 0, 0, 4)),
                 "It allows you to set specific actions that OpenTabletDriver will perform when, for example, a tablet button is pressed.",

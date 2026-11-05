@@ -14,7 +14,7 @@ namespace OpenTabletDriver.UX.Windows
         public AreaConverterDialog()
             : base(Application.Instance.MainForm)
         {
-            base.Title = "Convert Area...";
+            base.Title = Language.T("Convert Area...");
 
             topGroup = new Group
             {
@@ -55,10 +55,8 @@ namespace OpenTabletDriver.UX.Windows
                 {
                     new Group
                     {
-                        Text = "Converter",
-                        Content = converterList,
-                        Orientation = Orientation.Horizontal
-                    },
+                        Content = converterList,                        Orientation = Orientation.Horizontal
+                    }.Localize(c => { c.Text = Language.T("Converter"); }),
                     new StackLayoutItem
                     {
                         Expand = true,
@@ -104,9 +102,8 @@ namespace OpenTabletDriver.UX.Windows
                         HorizontalAlignment = HorizontalAlignment.Right,
                         Control = applyButton = new Button((sender, e) => ConvertArea())
                         {
-                            Text = "Apply",
                             Enabled = false
-                        }
+                        }.Localize(c => { c.Text = Language.T("Apply"); })
                     }
                 }
             };

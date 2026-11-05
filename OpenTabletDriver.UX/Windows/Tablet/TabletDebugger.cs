@@ -49,21 +49,21 @@ namespace OpenTabletDriver.UX.Windows.Tablet
 
         private readonly Label _rawTabletData = new() { Font = s_MonospaceFont };
 
-        private readonly DebuggerGroup _reportsRecordedGroup = new() { Text = "Reports Recorded" };
+        private readonly DebuggerGroup _reportsRecordedGroup = new() { Text = Language.T("Reports Recorded") };
         private readonly DebuggerGroup _rawTabletDataGroup;
         private readonly DebuggerGroup _tabletVisualizerGroup = new()
         {
-            Text = "Visualizer",
+            Text = Language.T("Visualizer"),
             MinimumSize = new Size(1, 200),
         };
         private readonly Group _additionalStatsGroup = new()
         {
-            Text = "Additional Stats",
-            Content = new Label { Text = "No stats observed yet" },
+            Text = Language.T("Additional Stats"),
+            Content = new Label { }.Localize(c => { c.Text = Language.T("No stats observed yet"); }),
         };
 
-        private readonly ButtonMenuItem _debuggedReports = new() { Text = "Debugged Reports", Visible = false };
-        private readonly ButtonMenuItem _debuggedTablets = new() { Text = "Debugged Tablets", Visible = false };
+        private readonly ButtonMenuItem _debuggedReports = new() { Text = Language.T("Debugged Reports"), Visible = false };
+        private readonly ButtonMenuItem _debuggedTablets = new() { Text = Language.T("Debugged Tablets"), Visible = false };
 
         private int AdditionalStatColumnsPerRow { get; set; } = 3;
 
@@ -118,14 +118,10 @@ namespace OpenTabletDriver.UX.Windows.Tablet
                                         {
                                             new DebuggerGroup
                                             {
-                                                Text = "Device",
-                                                Content = _deviceName,
-                                            },
+                                                Content = _deviceName                                            }.Localize(c => { c.Text = Language.T("Device"); }),
                                             new DebuggerGroup
                                             {
-                                                Text = "Report Rate",
-                                                Content = _reportRate,
-                                            },
+                                                Content = _reportRate                                            }.Localize(c => { c.Text = Language.T("Report Rate"); }),
                                         },
                                     },
                                     new StackLayout
@@ -150,25 +146,14 @@ namespace OpenTabletDriver.UX.Windows.Tablet
                                 Expand = true,
                                 Control = new DebuggerGroup
                                 {
-                                    ExpandContent = false,
-                                    MinimumSize = new Size(_FONT_SIZE * 22, _FONT_SIZE * 20),
-                                    Text = "Tablet Report",
-                                    Width = _FONT_SIZE * 22,
-                                    Content = _tabletData,
-                                },
+                                    ExpandContent = false,                                    MinimumSize = new Size(_FONT_SIZE * 22, _FONT_SIZE * 20),                                    Width = _FONT_SIZE * 22,                                    Content = _tabletData                                }.Localize(c => { c.Text = Language.T("Tablet Report"); }),
                             },
                         },
                     },
                     {
                         _rawTabletDataGroup = new DebuggerGroup
                         {
-                            Padding = _SPACING,
-                            Text = "Raw Tablet Data",
-                            Width = GetWidthOfRawTabletDataGroupBox(),
-                            MinimumSize = new Size(_FONT_SIZE * 22, _FONT_SIZE * 1),
-                            ExpandContent = false,
-                            Content = _rawTabletData,
-                        }
+                            Padding = _SPACING,                            Width = GetWidthOfRawTabletDataGroupBox(),                            MinimumSize = new Size(_FONT_SIZE * 22, _FONT_SIZE * 1),                            ExpandContent = false,                            Content = _rawTabletData                        }.Localize(c => { c.Text = Language.T("Raw Tablet Data"); })
                     },
                 },
             };
@@ -264,20 +249,18 @@ namespace OpenTabletDriver.UX.Windows.Tablet
         {
             var dataRecordingMenuItem = new CheckMenuItem
             {
-                Text = "Data Recording",
-            };
+            }.Localize(c => { c.Text = Language.T("Data Recording"); });
 
             dataRecordingMenuItem.BindDataContext(x => x.Checked, (TDVM vm) => vm.DataRecordingEnabled);
 
             var openDataRecordingDirectoryMenuItem = new Command
             {
-                MenuText = "Open recordings directory...",
-            };
+            }.Localize(c => { c.MenuText = Language.T("Open recordings directory..."); });
             openDataRecordingDirectoryMenuItem.Executed += (sender, e) => DesktopInterop.OpenFolder(AppInfo.Current.RecordingDirectory);
 
             ButtonMenuItem recordingTab = new()
             {
-                Text = "Recording",
+                Text = Language.T("Recording"),
                 Visible = true,
                 Items = {
                     dataRecordingMenuItem,
@@ -287,16 +270,14 @@ namespace OpenTabletDriver.UX.Windows.Tablet
 
             var visualizerEnabledMenuItem = new CheckMenuItem
             {
-                Text = "Visualizer",
-            };
+            }.Localize(c => { c.Text = Language.T("Visualizer"); });
 
             visualizerEnabledMenuItem.BindDataContext(x => x.Checked, (TDVM vm) => vm.IsVisualizerEnabled);
 
 
             var decodingSwitchMenuItem = new ButtonMenuItem
             {
-                Text = "Raw Data Mode",
-            };
+            }.Localize(c => { c.Text = Language.T("Raw Data Mode"); });
 
             RadioMenuItem? rootRadioButton = null;
             foreach (var decodingMode in Enum.GetValues<DecodingMode>())
@@ -316,8 +297,7 @@ namespace OpenTabletDriver.UX.Windows.Tablet
 
             var additionalStatisticsMenuItem = new CheckMenuItem()
             {
-                Text = "Additional Statistics",
-            };
+            }.Localize(c => { c.Text = Language.T("Additional Statistics"); });
 
             additionalStatisticsMenuItem.BindDataContext(x => x.Checked, (TDVM vm) => vm.ShowAdditionalStatistics);
 
@@ -332,8 +312,7 @@ namespace OpenTabletDriver.UX.Windows.Tablet
                 },
                 QuitItem = new ButtonMenuItem((_, _) => Application.Instance.AsyncInvoke(Close))
                 {
-                    Text = "Close Window",
-                },
+                }.Localize(c => { c.Text = Language.T("Close Window"); }),
                 Items =
                 {
                     recordingTab,
@@ -345,16 +324,14 @@ namespace OpenTabletDriver.UX.Windows.Tablet
 #if DEBUG
             Menu.Items.Add(new ButtonMenuItem
             {
-                Text = "Force Refresh",
                 Items =
                 {
                     new ButtonMenuItem(
                     (_, _) => Application.Instance.InvokeAsync(UpdateAdditionalStatisticsFields).ConfigureAwait(false))
                     {
-                        Text = "Additional Statistics",
-                    },
+                    }.Localize(c => { c.Text = Language.T("Additional Statistics"); }),
                 },
-            });
+            }.Localize(c => { c.Text = Language.T("Force Refresh"); }));
 #endif
         }
 

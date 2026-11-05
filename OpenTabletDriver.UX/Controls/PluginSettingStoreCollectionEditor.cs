@@ -17,13 +17,11 @@ namespace OpenTabletDriver.UX.Controls
         {
             this.Content = placeholder = new Placeholder
             {
-                Text = "No plugins containing this type are installed.",
                 ExtraContent = new Button
                 {
-                    Text = "Open Plugin Manager",
                     Command = new Command((s, e) => App.Current.PluginManagerWindow.Show())
-                }
-            };
+                }.Localize(c => { c.Text = Language.T("Open Plugin Manager"); })
+            }.Localize(c => { c.Text = Language.T("No plugins containing this type are installed."); });
 
             mainContent = new Splitter
             {

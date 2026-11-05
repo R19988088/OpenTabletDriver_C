@@ -17,14 +17,13 @@ namespace OpenTabletDriver.UX.Windows
         public DeviceStringReader()
             : base(Application.Instance.MainForm)
         {
-            this.Title = "Device String Reader";
+            this.Title = Language.T("Device String Reader");
             this.Icon = App.Logo.WithSize(App.Logo.Size);
             this.ClientSize = new Size(400, 410);
 
             var sendRequestButton = new Button
             {
-                Text = "Send Request",
-            };
+            }.Localize(c => { c.Text = Language.T("Send Request"); });
 
             sendRequestButton.Click += async (_, _) => await SendRequestWithTimeout(stringIndexText.Text,
                 (s) => deviceStringText.Text = System.Text.Json.JsonEncodedText.Encode(s).ToString(),
@@ -34,8 +33,7 @@ namespace OpenTabletDriver.UX.Windows
 
             var sendRequestAllStringsButton = new Button
             {
-                Text = "Dump All"
-            };
+            }.Localize(c => { c.Text = Language.T("Dump All"); });
 
             sendRequestAllStringsButton.Click += SendRequestAllStrings;
 
@@ -52,11 +50,7 @@ namespace OpenTabletDriver.UX.Windows
                 {
                     new Label
                     {
-                        Text = "WARNING\nArbitrary use of this tool may cause damage or disrupt usage of your tablet",
-                        Font = SystemFonts.Bold(),
-                        TextAlignment = TextAlignment.Center,
-                        Wrap = WrapMode.Word,
-                    },
+                        Font = SystemFonts.Bold(),                        TextAlignment = TextAlignment.Center,                        Wrap = WrapMode.Word                    }.Localize(c => { c.Text = Language.T("WARNING\nArbitrary use of this tool may cause damage or disrupt usage of your tablet"); }),
                     new Group("Connected HIDs", deviceDropDown, Orientation.Horizontal, false),
                     vendorIdCtrl,
                     productIdCtrl,
@@ -284,22 +278,22 @@ namespace OpenTabletDriver.UX.Windows
 
         private readonly TextBox deviceStringText = new()
         {
-            PlaceholderText = "Device String",
+            PlaceholderText = Language.T("Device String"),
             ReadOnly = true
         };
 
         private readonly CheckBox requireReconnect = new()
         {
-            Text = "Require reconnect on fail",
+            Text = Language.T("Require reconnect on fail"),
             Checked = false,
-            ToolTip = "Pauses string dump with a pop-up box if any string dump errors occur",
+            ToolTip = Language.T("Pauses string dump with a pop-up box if any string dump errors occur"),
         };
 
         private readonly CheckBox requestDangerous = new()
         {
-            Text = "Dump potentially dangerous strings",
+            Text = Language.T("Dump potentially dangerous strings"),
             Checked = false,
-            ToolTip = "Requests all strings in a string dump even if they are known to likely damage or disrupt usage of the tablet",
+            ToolTip = Language.T("Requests all strings in a string dump even if they are known to likely damage or disrupt usage of the tablet"),
         };
     }
 }

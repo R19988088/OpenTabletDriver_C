@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -43,23 +44,15 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                                 {
                                     Control = widthGroup = new UnitGroup
                                     {
-                                        Text = "Width",
-                                        Unit = Unit,
-                                        ToolTip = $"Area width in {Unit}",
-                                        Orientation = Orientation.Horizontal,
-                                        Content = width = new FloatNumberBox()
-                                    }
+                                        Unit = Unit,                                        ToolTip = $"Area width in {Unit}",                                        Orientation = Orientation.Horizontal,                                        Content = width = new FloatNumberBox()
+                                    }.Localize(c => { c.Text = Language.T("Width"); })
                                 },
                                 new StackLayoutItem
                                 {
                                     Control = heightGroup = new UnitGroup
                                     {
-                                        Text = "Height",
-                                        Unit = Unit,
-                                        ToolTip = $"Area height in {Unit}",
-                                        Orientation = Orientation.Horizontal,
-                                        Content = height = new FloatNumberBox()
-                                    }
+                                        Unit = Unit,                                        ToolTip = $"Area height in {Unit}",                                        Orientation = Orientation.Horizontal,                                        Content = height = new FloatNumberBox()
+                                    }.Localize(c => { c.Text = Language.T("Height"); })
                                 },
                                 new StackLayoutItem
                                 {
@@ -90,6 +83,7 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
             };
 
             CreateMenu();
+            Language.Changed += (_, _) => CreateMenu();
 
             widthGroup.UnitBinding.Bind(UnitBinding);
             heightGroup.UnitBinding.Bind(UnitBinding);
@@ -121,8 +115,7 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
 
         private BooleanCommand lockToUsableArea = new BooleanCommand
         {
-            MenuText = "Lock to usable area"
-        };
+        }.Localize(c => { c.MenuText = Language.T("Lock to usable area"); });
 
         private UnitGroup widthGroup, heightGroup, xGroup, yGroup;
         private MaskedTextBox<float> width, height, x, y;
@@ -172,6 +165,12 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
             return (max - min) / 2;
         }
 
+        protected ISubmenu GetLocalizedSubmenu(string text)
+        {
+            return this.ContextMenu.Items.GetSubmenu(Language.T(text)) as ISubmenu
+                ?? throw new InvalidOperationException($"Could not find submenu {text}");
+        }
+
         protected virtual void CreateMenu()
         {
             this.ContextMenu = new ContextMenu
@@ -180,61 +179,51 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                 {
                     new ButtonMenuItem
                     {
-                        Text = "Align",
                         Items =
                         {
                             new ActionCommand
                             {
-                                MenuText = "Left",
                                 Action = () => Area!.X = GetAreaCenterOffset().X
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Left"); }),
                             new ActionCommand
                             {
-                                MenuText = "Right",
                                 Action = () => Area!.X = FullAreaBounds!.Value.Width - GetAreaCenterOffset().X
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Right"); }),
                             new ActionCommand
                             {
-                                MenuText = "Top",
                                 Action = () => Area!.Y = GetAreaCenterOffset().Y
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Top"); }),
                             new ActionCommand
                             {
-                                MenuText = "Bottom",
                                 Action = () => Area!.Y = FullAreaBounds!.Value.Height - GetAreaCenterOffset().Y
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Bottom"); }),
                             new ActionCommand
                             {
-                                MenuText = "Center",
                                 Action = () =>
                                 {
                                     Area!.X = FullAreaBounds!.Value.Center.X;
                                     Area!.Y = FullAreaBounds!.Value.Center.Y;
                                 }
-                            }
+                            }.Localize(c => { c.MenuText = Language.T("Center"); })
                         }
-                    },
+                    }.Localize(c => { c.Text = Language.T("Align"); }),
                     new ButtonMenuItem
                     {
-                        Text = "Resize",
-                    },
+                    }.Localize(c => { c.Text = Language.T("Resize"); }),
                     new ButtonMenuItem
                     {
-                        Text = "Flip",
                         Items =
                         {
                             new ActionCommand
                             {
-                                MenuText = "Horizontal",
                                 Action = () => Area!.X = FullAreaBounds!.Value.Width - Area.X
-                            },
+                            }.Localize(c => { c.MenuText = Language.T("Horizontal"); }),
                             new ActionCommand
                             {
-                                MenuText = "Vertical",
                                 Action = () => Area!.Y = FullAreaBounds!.Value.Height - Area.Y
-                            }
+                            }.Localize(c => { c.MenuText = Language.T("Vertical"); })
                         }
-                    },
+                    }.Localize(c => { c.Text = Language.T("Flip"); }),
                     lockToUsableArea
                 }
             };

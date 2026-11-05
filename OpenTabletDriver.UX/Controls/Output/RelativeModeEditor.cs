@@ -12,7 +12,6 @@ namespace OpenTabletDriver.UX.Controls.Output
         {
             this.Content = new Group
             {
-                Text = "Relative",
                 Content = new StackLayout
                 {
                     Orientation = Orientation.Horizontal,
@@ -24,36 +23,24 @@ namespace OpenTabletDriver.UX.Controls.Output
                         new StackLayoutItem(null, true),
                         new UnitGroup
                         {
-                            Text = "X Sensitivity",
-                            Orientation = Orientation.Horizontal,
-                            Unit = "px/mm",
-                            Content = xSens = new FloatNumberBox()
-                        },
+                            Orientation = Orientation.Horizontal,                            Unit = "px/mm",                            Content = xSens = new FloatNumberBox()
+                        }.Localize(c => { c.Text = Language.T("X Sensitivity"); }),
                         new UnitGroup
                         {
-                            Text = "Y Sensitivity",
-                            Orientation = Orientation.Horizontal,
-                            Unit = "px/mm",
-                            Content = ySens = new FloatNumberBox()
-                        },
+                            Orientation = Orientation.Horizontal,                            Unit = "px/mm",                            Content = ySens = new FloatNumberBox()
+                        }.Localize(c => { c.Text = Language.T("Y Sensitivity"); }),
                         new UnitGroup
                         {
-                            Text = "Rotation",
-                            Orientation = Orientation.Horizontal,
-                            Unit = "°",
-                            Content = rotation = new FloatNumberBox()
-                        },
+                            Orientation = Orientation.Horizontal,                            Unit = "°",                            Content = rotation = new FloatNumberBox()
+                        }.Localize(c => { c.Text = Language.T("Rotation"); }),
                         new UnitGroup
                         {
-                            Text = "Reset Time",
-                            Orientation = Orientation.Horizontal,
-                            Unit = "ms",
-                            Content = resetTime = new FloatNumberBox()
-                        },
+                            Orientation = Orientation.Horizontal,                            Unit = "ms",                            Content = resetTime = new FloatNumberBox()
+                        }.Localize(c => { c.Text = Language.T("Reset Time"); }),
                         new StackLayoutItem(null, true)
                     }
                 }
-            };
+            }.Localize(c => { c.Text = Language.T("Relative"); });
 
             xSens.ValueBinding.Bind(SettingsBinding.Child(s => s!.XSensitivity));
             ySens.ValueBinding.Bind(SettingsBinding.Child(s => s!.YSensitivity));

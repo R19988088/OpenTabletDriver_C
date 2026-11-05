@@ -13,7 +13,7 @@ namespace OpenTabletDriver.UX.Windows.Bindings
     {
         public AdvancedBindingEditorDialog(PluginSettingStore? currentBinding = null)
         {
-            Title = "Advanced Binding Editor";
+            Title = Language.T("Advanced Binding Editor");
             Result = currentBinding?.Clone();
             Padding = 5;
             base.Size = new Eto.Drawing.Size(500, 450);
@@ -26,9 +26,8 @@ namespace OpenTabletDriver.UX.Windows.Bindings
                 {
                     new Group
                     {
-                        Text = "Type",
                         Content = bindingTypeDropDown = new TypeDropDown<IBinding>()
-                    },
+                    }.Localize(c => { c.Text = Language.T("Type"); }),
                     new StackLayoutItem
                     {
                         Expand = true,
@@ -42,7 +41,7 @@ namespace OpenTabletDriver.UX.Windows.Bindings
                                 Width = 1, // forces HorizontalAlignment.Stretch to start at 1 instead of the default size which eliminates the Scrollable's horizontal scrollbar
                                 Items =
                                 {
-                                    settingStoreEditor,
+                                    settingStoreEditor
                                 }
                             }
                         }
@@ -62,16 +61,14 @@ namespace OpenTabletDriver.UX.Windows.Bindings
                                     Expand = true,
                                     Control = new Button(ClearBinding)
                                     {
-                                        Text = "Clear"
-                                    }
+                                    }.Localize(c => { c.Text = Language.T("Clear"); })
                                 },
                                 new StackLayoutItem
                                 {
                                     Expand = true,
                                     Control = new Button(ApplyBinding)
                                     {
-                                        Text = "Apply"
-                                    }
+                                    }.Localize(c => { c.Text = Language.T("Apply"); })
                                 }
                             }
                         }

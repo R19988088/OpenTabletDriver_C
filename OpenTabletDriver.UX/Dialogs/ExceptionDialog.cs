@@ -7,7 +7,7 @@ namespace OpenTabletDriver.UX.Dialogs
     {
         public ExceptionDialog(Exception exception)
         {
-            Title = "Application Error";
+            Title = Language.T("Application Error");
             Width = 600;
             Height = 400;
 
@@ -16,8 +16,7 @@ namespace OpenTabletDriver.UX.Dialogs
                 Padding = 10,
                 Content = new Label
                 {
-                    Text = "An application error has occured. Report this to the developers!"
-                }
+                }.Localize(c => { c.Text = Language.T("An application error has occured. Report this to the developers!"); })
             };
 
             var stackTrace = new TextArea
@@ -29,13 +28,11 @@ namespace OpenTabletDriver.UX.Dialogs
 
             var copyButton = new Button((_, _) => Clipboard.Instance.Text = stackTrace.Text)
             {
-                Text = "Copy"
-            };
+            }.Localize(c => { c.Text = Language.T("Copy"); });
 
             var okButton = new Button((_, _) => Close())
             {
-                Text = "Ok"
-            };
+            }.Localize(c => { c.Text = Language.T("Ok"); });
 
             Content = new StackLayout
             {

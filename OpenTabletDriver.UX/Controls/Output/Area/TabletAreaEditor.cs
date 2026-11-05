@@ -11,7 +11,7 @@ namespace OpenTabletDriver.UX.Controls.Output
     {
         public TabletAreaEditor()
         {
-            this.ToolTip = "You can right click the area editor to enable aspect ratio locking, adjust alignment, or resize the area.";
+            this.Localize(c => { c.ToolTip = Language.T("You can right click the area editor to enable aspect ratio locking, adjust alignment, or resize the area."); });
         }
 
         private BooleanCommand? lockArCmd, areaClippingCmd, ignoreOutsideAreaCmd;

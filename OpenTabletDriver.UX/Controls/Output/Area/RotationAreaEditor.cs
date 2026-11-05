@@ -14,12 +14,8 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                 {
                     Control = new UnitGroup
                     {
-                        Text = "Rotation",
-                        Unit = "°",
-                        ToolTip = "Angle of rotation about the center of the area.",
-                        Orientation = Orientation.Horizontal,
-                        Content = rotation = new FloatNumberBox()
-                    }
+                        Unit = "°",                        Orientation = Orientation.Horizontal,                        Content = rotation = new FloatNumberBox()
+                    }.Localize(c => { c.Text = Language.T("Rotation"); c.ToolTip = Language.T("Angle of rotation about the center of the area."); })
                 }
             );
 
@@ -34,10 +30,9 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
         {
             base.CreateMenu();
 
-            this.ContextMenu.Items.GetSubmenu("Flip").Items.Add(
+            this.GetLocalizedSubmenu("Flip").Items.Add(
                 new ActionCommand
                 {
-                    MenuText = "Handedness",
                     Action = () =>
                     {
                         Area!.Rotation += 180;
@@ -45,7 +40,7 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                         Area!.X = FullAreaBounds!.Value.Width - Area.X;
                         Area!.Y = FullAreaBounds!.Value.Height - Area.Y;
                     }
-                }
+                }.Localize(c => { c.MenuText = Language.T("Handedness"); })
             );
         }
     }

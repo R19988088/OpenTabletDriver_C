@@ -19,15 +19,13 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                     {
                         new Group
                         {
-                            Text = "Mouse Buttons",
                             Content = mouseButtons = new MouseBindingDisplayList
                             {
                                 Prefix = "Mouse Binding"
                             }
-                        },
+                        }.Localize(c => { c.Text = Language.T("Mouse Buttons"); }),
                         new Group
                         {
-                            Text = "Mouse Scrollwheel",
                             Content = new StackLayout
                             {
                                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
@@ -36,21 +34,15 @@ namespace OpenTabletDriver.UX.Controls.Bindings
                                 {
                                     new Group
                                     {
-                                        Text = "Scroll Up",
-                                        Orientation = Orientation.Horizontal,
-                                        ExpandContent = false,
-                                        Content = scrollUp = new BindingDisplay()
-                                    },
+                                        Orientation = Orientation.Horizontal,                                        ExpandContent = false,                                        Content = scrollUp = new BindingDisplay()
+                                    }.Localize(c => { c.Text = Language.T("Scroll Up"); }),
                                     new Group
                                     {
-                                        Text = "Scroll Down",
-                                        Orientation = Orientation.Horizontal,
-                                        ExpandContent = false,
-                                        Content = scrollDown = new BindingDisplay()
-                                    }
+                                        Orientation = Orientation.Horizontal,                                        ExpandContent = false,                                        Content = scrollDown = new BindingDisplay()
+                                    }.Localize(c => { c.Text = Language.T("Scroll Down"); })
                                 }
                             }
-                        }
+                        }.Localize(c => { c.Text = Language.T("Mouse Scrollwheel"); })
                     }
                 }
             };

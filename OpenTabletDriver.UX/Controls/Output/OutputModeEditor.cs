@@ -91,8 +91,8 @@ namespace OpenTabletDriver.UX.Controls.Output
         private AbsoluteModeEditor absoluteModeEditor = new AbsoluteModeEditor();
         private RelativeModeEditor relativeModeEditor = new RelativeModeEditor();
         private TypeDropDown<IOutputMode> outputModeSelector = new TypeDropDown<IOutputMode> { Width = 300 };
-        private Label outputModeUnsupported = new Label { Text = "No supported output mode selected.", TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-        private Label tabletUnavailable = new Label { Text = "No tablets were detected or selected.", TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+        private Label outputModeUnsupported = new Label { TextAlignment = TextAlignment.Center,VerticalAlignment = VerticalAlignment.Center }.Localize(c => { c.Text = Language.T("No supported output mode selected."); });
+        private Label tabletUnavailable = new Label { TextAlignment = TextAlignment.Center,VerticalAlignment = VerticalAlignment.Center }.Localize(c => { c.Text = Language.T("No tablets were detected or selected."); });
 
         public void SetTabletSize(TabletReference tablet)
         {
