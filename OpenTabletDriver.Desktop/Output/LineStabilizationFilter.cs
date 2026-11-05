@@ -7,7 +7,6 @@ namespace OpenTabletDriver.Desktop.Output
     public class LineStabilizationFilter : IPositionedPipelineElement<IDeviceReport>
     {
         private const int PressureScale = 65535;
-        private const int PressureFloor = 66;
 
         private readonly LineStabilizationSettings settings;
         private readonly uint maxPenPressure;
@@ -73,11 +72,16 @@ namespace OpenTabletDriver.Desktop.Output
             {
                 var curved = StandardPressureCurve(normalized, settings.Elasticity);
                 var filtered = pressureFilter.Apply(curved, settings.PressureWindow);
-                var output = pressureActive ? Math.Max(PressureFloor, filtered) : PressureFloor;
+
+                // Hold the previous value until the averaged window settles, but never fabricate a
+                // floor: PressureRewriteFilter zeroes anything at or below the tip activation
+                // threshold, and a synthetic minimum there would swallow all real pressure.
+                var output = pressureActive ? filtered : (int)Math.Round(report.Pressure * (double)PressureScale / Math.Max(1u, maxPenPressure));
                 pressureActive = true;
+
                 report.Pressure = (uint)Math.Clamp(
-                    Math.Round(output * (double)maxPenPressure / PressureScale),
-                    1,
+                    Math.Round(Math.Max(output, 0) * (double)maxPenPressure / PressureScale),
+                    0,
                     maxPenPressure);
             }
 
