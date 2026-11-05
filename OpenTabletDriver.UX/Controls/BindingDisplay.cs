@@ -33,7 +33,20 @@ namespace OpenTabletDriver.UX.Controls
                 }
             };
 
-            mainButton.TextBinding.Bind(this.StoreBinding.Convert<string?>(s => s?.GetElidedHumanReadableString(100)));
+            mainButton.TextBinding.Bind(this.StoreBinding.Convert<string?>(s =>
+            {
+                if (s == null)
+                    return null;
+
+                // The human readable string is built from the plugin name, which needs translating
+                // for display. Re-apply the setting suffix so only the name is replaced.
+                var raw = s.GetElidedHumanReadableString(100);
+                var name = s.Name;
+                if (name == null || !raw.StartsWith(name))
+                    return raw;
+
+                return Language.T(name) + raw[name.Length..];
+            }));
 
             mainButton.Click += async (sender, e) =>
             {

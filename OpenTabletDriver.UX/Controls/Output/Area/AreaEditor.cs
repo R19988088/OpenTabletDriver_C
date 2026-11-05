@@ -44,15 +44,19 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                                 {
                                     Control = widthGroup = new UnitGroup
                                     {
-                                        Unit = Unit,                                        ToolTip = $"Area width in {Unit}",                                        Orientation = Orientation.Horizontal,                                        Content = width = new FloatNumberBox()
-                                    }.Localize(c => { c.Text = Language.T("Width"); })
+                                        Unit = Unit,
+                                        Orientation = Orientation.Horizontal,
+                                        Content = width = new FloatNumberBox()
+                                    }.Localize(c => { c.Text = Language.T("Width"); c.ToolTip = Language.Format("Area width in {0}", Unit); })
                                 },
                                 new StackLayoutItem
                                 {
                                     Control = heightGroup = new UnitGroup
                                     {
-                                        Unit = Unit,                                        ToolTip = $"Area height in {Unit}",                                        Orientation = Orientation.Horizontal,                                        Content = height = new FloatNumberBox()
-                                    }.Localize(c => { c.Text = Language.T("Height"); })
+                                        Unit = Unit,
+                                        Orientation = Orientation.Horizontal,
+                                        Content = height = new FloatNumberBox()
+                                    }.Localize(c => { c.Text = Language.T("Height"); c.ToolTip = Language.Format("Area height in {0}", Unit); })
                                 },
                                 new StackLayoutItem
                                 {
@@ -60,10 +64,9 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                                     {
                                         Text = "X",
                                         Unit = Unit,
-                                        ToolTip = $"Area center X offset in {Unit}",
                                         Orientation = Orientation.Horizontal,
                                         Content = x = new FloatNumberBox()
-                                    }
+                                    }.Localize(c => { c.ToolTip = Language.Format("Area center X offset in {0}", Unit); })
                                 },
                                 new StackLayoutItem
                                 {
@@ -71,10 +74,9 @@ namespace OpenTabletDriver.UX.Controls.Output.Area
                                     {
                                         Text = "Y",
                                         Unit = Unit,
-                                        ToolTip = $"Area center Y offset in {Unit}",
                                         Orientation = Orientation.Horizontal,
                                         Content = y = new FloatNumberBox()
-                                    }
+                                    }.Localize(c => { c.ToolTip = Language.Format("Area center Y offset in {0}", Unit); })
                                 }
                             }
                         }

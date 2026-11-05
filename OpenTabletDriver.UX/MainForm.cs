@@ -526,7 +526,7 @@ namespace OpenTabletDriver.UX
 
         private static async Task ResetSettingsDialog()
         {
-            if (MessageBox.Show("Reset settings to default?", "Reset to defaults", MessageBoxButtons.OKCancel, MessageBoxType.Question) == DialogResult.Ok)
+            if (MessageBox.Show(Language.T("Reset settings to default?"), Language.T("Reset to defaults"), MessageBoxButtons.OKCancel, MessageBoxType.Question) == DialogResult.Ok)
                 await ResetSettings();
         }
 

@@ -105,18 +105,15 @@ namespace OpenTabletDriver.UX.Controls.Output
 
             lockArCmd = new BooleanCommand
             {
-                MenuText = "Lock aspect ratio"
-            };
+            }.Localize(c => { c.MenuText = Language.T("Lock aspect ratio"); });
 
             areaClippingCmd = new BooleanCommand
             {
-                MenuText = "Clamp input outside area"
-            };
+            }.Localize(c => { c.MenuText = Language.T("Clamp input outside area"); });
 
             ignoreOutsideAreaCmd = new BooleanCommand
             {
-                MenuText = "Ignore input outside area"
-            };
+            }.Localize(c => { c.MenuText = Language.T("Ignore input outside area"); });
 
             base.ContextMenu.Items.AddRange(
                 new Command[]
@@ -132,9 +129,8 @@ namespace OpenTabletDriver.UX.Controls.Output
             base.ContextMenu.Items.Add(
                 new ActionCommand
                 {
-                    MenuText = "Convert area...",
                     Action = async () => await ConvertAreaDialog()
-                }
+                }.Localize(c => { c.MenuText = Language.T("Convert area..."); })
             );
 
             lockArCmd.CheckedBinding.Cast<bool>().Bind(LockAspectRatioBinding);

@@ -13,10 +13,15 @@ namespace OpenTabletDriver.UX.Controls.Generic.Reflection
 
         public static string GetFriendlyName(this TypeInfo type)
         {
-            if (FriendlyNameCache.TryGetValue(type, out string? value))
-                return value;
+            if (!FriendlyNameCache.TryGetValue(type, out string? value))
+            {
+                value = type.GetCustomAttribute<PluginNameAttribute>()?.Name ?? type.FullName!;
+                FriendlyNameCache[type] = value;
+            }
 
-            return FriendlyNameCache[type] = type.GetCustomAttribute<PluginNameAttribute>()?.Name ?? type.FullName!;
+            // Plugin names double as UI labels, so translate them on lookup rather than caching
+            // the translated form; the language can change at runtime.
+            return Language.T(value);
         }
 
         public static bool RemoveFromFriendlyNameCache(TypeInfo typeInfo) => FriendlyNameCache.Remove(typeInfo);

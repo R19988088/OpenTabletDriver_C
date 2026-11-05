@@ -61,9 +61,9 @@ namespace OpenTabletDriver.UX.Controls.Bindings
             {
                 return index switch
                 {
-                    0 => "Primary Binding",
-                    1 => "Alternate Binding",
-                    2 => "Middle Binding",
+                    0 => Language.T("Primary Binding"),
+                    1 => Language.T("Alternate Binding"),
+                    2 => Language.T("Middle Binding"),
                     _ => base.GetTextForIndex(index)
                 };
             }

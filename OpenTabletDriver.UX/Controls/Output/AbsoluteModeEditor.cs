@@ -28,7 +28,7 @@ namespace OpenTabletDriver.UX.Controls.Output
                         {
                             Content = displayAreaEditor = new DisplayAreaEditor(() => HandleAspectRatioLock(displayAreaEditor, EventArgs.Empty))
                             {
-                                InvalidForegroundError = "Invalid display area.",
+                                InvalidForegroundError = Language.T("Invalid display area."),
                                 Unit = "px"
                             }
                         }.Localize(c => { c.Text = Language.T("Display"); })
@@ -40,7 +40,7 @@ namespace OpenTabletDriver.UX.Controls.Output
                         {
                             Content = tabletAreaEditor = new TabletAreaEditor
                             {
-                                InvalidForegroundError = "Invalid tablet area.",
+                                InvalidForegroundError = Language.T("Invalid tablet area."),
                                 Unit = "mm"
                             }
                         }.Localize(c => { c.Text = Language.T("Tablet"); })

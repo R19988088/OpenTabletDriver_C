@@ -73,7 +73,7 @@ namespace OpenTabletDriver.UX.Controls.Output
                 subMenu.Items.Add(
                     new ActionCommand
                     {
-                        MenuText = display.ToString(),
+                        MenuText = Language.Format("Display {0} ({1}x{2}@{3})", display.Index, display.Width, display.Height, display.Position),
                         Action = () =>
                         {
                             if (this.Area == null)

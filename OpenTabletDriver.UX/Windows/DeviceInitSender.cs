@@ -16,13 +16,13 @@ namespace OpenTabletDriver.UX.Windows
         public DeviceInitSender()
             : base(Application.Instance.MainForm)
         {
-            this.Title = "Device Init Sender";
+            this.Localize(c => { c.Title = Language.T("Device Init Sender"); });
             this.Icon = App.Logo.WithSize(App.Logo.Size);
             this.ClientSize = new Size(400, 450);
 
             var sendButton = new Button
             {
-                Text = "Send Init",
+                Text = Language.T("Send Init"),
             };
 
             sendButton.Click += async (_, _) => await SendInitWithTimeout(initValueText.Text,
@@ -47,12 +47,12 @@ namespace OpenTabletDriver.UX.Windows
                 {
                     new Label
                     {
-                        Text = "WARNING\nArbitrary use of this tool may cause damage or disrupt usage of your tablet",
+                        Text = Language.T("WARNING\nArbitrary use of this tool may cause damage or disrupt usage of your tablet"),
                         Font = SystemFonts.Bold(),
                         TextAlignment = TextAlignment.Center,
                         Wrap = WrapMode.Word,
                     },
-                    new Group("Connected HIDs", deviceDropDown, Orientation.Horizontal, false),
+                    new Group(Language.T("Connected HIDs"), deviceDropDown, Orientation.Horizontal, false),
                     vendorIdCtrl,
                     productIdCtrl,
                     interfaceCtrl,

@@ -256,6 +256,11 @@ namespace OpenTabletDriver.UX
             ["OpenTabletDriver Guide"] = "OpenTabletDriver 使用指南",
             ["Ref"] = "分支或引用",
             ["Reset settings to default?"] = "将设置恢复为默认值？",
+            ["Send Init"] = "发送初始化指令",
+            ["Connected HIDs"] = "已连接的 HID 设备",
+            ["Virtual Display"] = "虚拟显示器",
+            ["VirtualDisplay"] = "虚拟显示器",
+
             ["Device init sender..."] = "设备初始化发送器...",
             ["Device Init Sender"] = "设备初始化发送器",
         };

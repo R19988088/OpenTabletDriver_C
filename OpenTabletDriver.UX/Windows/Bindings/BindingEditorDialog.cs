@@ -91,8 +91,13 @@ namespace OpenTabletDriver.UX.Windows.Bindings
             {
                 TextAlignment = TextAlignment.Center;
                 ReadOnly = true;
-                ToolTip = TOOLTIP;
-                Text = TOOLTIP;
+                Text = Language.T(TOOLTIP);
+                this.Localize(c =>
+                {
+                    c.ToolTip = Language.T(TOOLTIP);
+                    if (Store == null)
+                        c.Text = Language.T(TOOLTIP);
+                });
             }
 
             private const string TOOLTIP = "Press a key, combination of keys, or a mouse button.";
@@ -108,9 +113,22 @@ namespace OpenTabletDriver.UX.Windows.Bindings
                 get => this.store;
             }
 
+            private string GetLocalizedStoreText()
+            {
+                if (Store == null)
+                    return Language.T(TOOLTIP);
+
+                var text = Store.GetHumanReadableString();
+                var name = Store.Name;
+                if (name == null || !text.StartsWith(name))
+                    return text;
+
+                return Language.T(name) + text[name.Length..];
+            }
+
             public void Refresh()
             {
-                this.Text = Store?.GetHumanReadableString() ?? TOOLTIP;
+                this.Text = GetLocalizedStoreText();
             }
 
             protected override void OnKeyDown(KeyEventArgs e)

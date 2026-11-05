@@ -10,7 +10,7 @@ namespace OpenTabletDriver.UX.Controls.Bindings
 
         protected virtual string GetTextForIndex(int index)
         {
-            return $"{Prefix} {index + 1}";
+            return Language.T(Prefix) + " " + (index + 1);
         }
 
         protected override Control CreateControl(int index, DirectBinding<PluginSettingStore?> itemBinding)
