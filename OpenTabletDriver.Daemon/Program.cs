@@ -20,14 +20,14 @@ namespace OpenTabletDriver.Daemon
         public DirectoryInfo? ConfigurationDirectory { get; set; }
     }
 
-    public partial class Program
+    partial class Program
     {
         private static bool s_writeLineFailed;
 
         // A garbage-collected registration unregisters its handler, so keep them for the process lifetime
         private static readonly List<PosixSignalRegistration> s_signalRegistrations = [];
 
-        public static async Task Main(string[] args)
+        static async Task Main(string[] args)
         {
             Log.Output += (sender, message) =>
             {

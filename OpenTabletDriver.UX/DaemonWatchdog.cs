@@ -12,13 +12,15 @@ namespace OpenTabletDriver.UX
 
         private Process? daemonProcess;
 
-        // Set by frontends that combine the GUI and the daemon into a single executable. When set,
-        // and no standalone daemon binary is installed next to us, we restart ourselves as the backend.
-        public static string? SelfHostArgument { get; set; }
-
         private readonly static ProcessStartInfo startInfo = SystemInterop.CurrentPlatform switch
         {
-            PluginPlatform.Windows => CreateWindowsStartInfo(),
+            PluginPlatform.Windows => new ProcessStartInfo
+            {
+                FileName = Path.Join(AppContext.BaseDirectory, "OpenTabletDriver.Daemon.exe"),
+                Arguments = "",
+                WorkingDirectory = AppContext.BaseDirectory,
+                CreateNoWindow = true
+            },
             PluginPlatform.MacOS => new ProcessStartInfo
             {
                 FileName = Path.Join(AppContext.BaseDirectory, "OpenTabletDriver.Daemon")
@@ -29,31 +31,6 @@ namespace OpenTabletDriver.UX
                 Arguments = Path.Join(AppContext.BaseDirectory, "OpenTabletDriver.Daemon.dll")
             }
         };
-
-        private static ProcessStartInfo CreateWindowsStartInfo()
-        {
-            var standalone = Path.Join(AppContext.BaseDirectory, "OpenTabletDriver.Daemon.exe");
-
-            if (!File.Exists(standalone) && SelfHostArgument != null && Environment.ProcessPath != null)
-            {
-                return new ProcessStartInfo
-                {
-                    FileName = Environment.ProcessPath,
-                    Arguments = SelfHostArgument,
-                    WorkingDirectory = AppContext.BaseDirectory,
-                    CreateNoWindow = true,
-                    UseShellExecute = false
-                };
-            }
-
-            return new ProcessStartInfo
-            {
-                FileName = standalone,
-                Arguments = "",
-                WorkingDirectory = AppContext.BaseDirectory,
-                CreateNoWindow = true
-            };
-        }
 
         public static bool CanExecute =>
             File.Exists(startInfo.FileName) ||

@@ -1,11 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Project Properties">
     <OutputType>WinExe</OutputType>
     <TargetFramework>$(FrameworkBase)-windows</TargetFramework>
     <ApplicationIcon>../OpenTabletDriver.UX/Assets/otd.ico</ApplicationIcon>
-    <StartupObject>OpenTabletDriver.UX.Wpf.Program</StartupObject>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup Label="NuGet Packages">
@@ -14,7 +12,6 @@
 
   <ItemGroup Label="Project References">
     <ProjectReference Include="..\OpenTabletDriver.UX\OpenTabletDriver.UX.csproj" />
-    <ProjectReference Include="..\OpenTabletDriver.Daemon\OpenTabletDriver.Daemon.csproj" />
   </ItemGroup>
 
 </Project>

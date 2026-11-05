@@ -30,40 +30,40 @@ jobs:
         run: |
           $props = Get-Content Directory.Build.props -Raw
           $version = [regex]::Match($props, '<VersionBase>(.*?)</VersionBase>').Groups[1].Value
+          $name = "OpenTabletDriver-$version-win-x64"
           "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "name=$name"   | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
-      - name: Publish single-file executable
+      # Standard layout: separate daemon and GUI executables with their assemblies
+      # laid out beside them, matching the upstream portable build.
+      - name: Publish folder build
         shell: pwsh
         run: |
-          dotnet publish OpenTabletDriver.UX.Wpf/OpenTabletDriver.UX.Wpf.csproj `
-            -c Release -f net10.0-windows -r win-x64 --self-contained true `
-            -p:PublishSingleFile=true `
-            -p:EnableCompressionInSingleFile=true `
-            -p:IncludeNativeLibrariesForSelfExtract=true `
-            -p:IncludeAllContentForSelfExtract=true `
-            -p:PublishTrimmed=false `
-            -p:DebugType=embedded `
-            -p:SuppressNETCoreSdkPreviewMessage=true `
-            -o dist
+          $dest = "out/${{ steps.version.outputs.name }}"
+          $common = @(
+            "-c", "Release", "-r", "win-x64", "--self-contained", "true",
+            "-p:PublishSingleFile=false", "-p:PublishTrimmed=false",
+            "-p:DebugType=embedded", "-p:SuppressNETCoreSdkPreviewMessage=true"
+          )
+          dotnet publish OpenTabletDriver.Daemon/OpenTabletDriver.Daemon.csproj -f net10.0 @common -o $dest
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet publish OpenTabletDriver.UX.Wpf/OpenTabletDriver.UX.Wpf.csproj -f net10.0-windows @common -o $dest
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Assemble portable package
-        id: package
+      - name: Add portable marker and readme
         shell: pwsh
         run: |
-          $name = "OpenTabletDriver-${{ steps.version.outputs.value }}-win-x64"
-          New-Item -ItemType Directory -Force -Path "pkg/$name" | Out-Null
-          Copy-Item "dist/OpenTabletDriver.UX.Wpf.exe" "pkg/$name/OpenTabletDriver.exe"
-          Copy-Item "eng/windows/README-zh-CN.txt" "pkg/$name/" -ErrorAction SilentlyContinue
-          Compress-Archive -Path "pkg/$name" -DestinationPath "$name.zip" -Force
-          "zip=$name.zip" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          $dest = "out/${{ steps.version.outputs.name }}"
+          New-Item -ItemType Directory -Force -Path "$dest/userdata" | Out-Null
+          Copy-Item "eng/windows/README-zh-CN.txt" "$dest/" -ErrorAction SilentlyContinue
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: OpenTabletDriver-win-x64
-          path: ${{ steps.package.outputs.zip }}
+          name: ${{ steps.version.outputs.name }}
+          path: out/${{ steps.version.outputs.name }}
           if-no-files-found: error
+          compression-level: 0
 
       - name: Publish release
         uses: softprops/action-gh-release@v2
@@ -71,4 +71,4 @@ jobs:
           tag_name: ${{ steps.version.outputs.value }}
           name: OpenTabletDriver ${{ steps.version.outputs.value }} (codex)
           prerelease: true
-          files: ${{ steps.package.outputs.zip }}
+          files: out/${{ steps.version.outputs.name }}
